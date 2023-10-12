@@ -16,3 +16,10 @@ async def test_empty_showcase():
     showcase = await api.fetch_showcase("123456789")
     assert showcase.uid == "123456789"
     assert showcase.characters == []
+
+
+@pytest.mark.asyncio
+async def test_traveler_showcase():
+    api = EnkaNetworkAPI()
+    showcase = await api.fetch_showcase("600001919")
+    assert showcase.uid == "600001919"
