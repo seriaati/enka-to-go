@@ -56,9 +56,13 @@ class WeaponDetailedInfo(BaseModel):
 
 
 class WeaponBaseInfo(BaseModel):
-    refinement: Dict[str, int] = Field(alias="affixMap")
+    refinement: int = Field(alias="affixMap")
     level: int
-    ascension: int = Field(alias="promoteLevel")
+    ascension: int = Field(0, alias="promoteLevel")
+
+    @field_validator("refinement", mode="before")
+    def _extract_refinement(cls, v: Dict[str, int]) -> int:
+        return list(v.values())[0]
 
 
 class Weapon(BaseModel):
