@@ -76,6 +76,7 @@ class Character(BaseModel):
     skills: Dict[str, int] = Field(alias="skillLevelMap")
     ascension: int
     level: int
+    skill_depot_id: int = Field(alias="skillDepotId")
 
     @field_validator("constellations", mode="before")
     def _convert_constellations(cls, v: Optional[List[int]]) -> int:

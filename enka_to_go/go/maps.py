@@ -31,3 +31,13 @@ GO_STAT_KEY_MAP: Dict[StatType, str] = {
     StatType.GEO_DMG_BONUS: "geo_dmg_",
     StatType.DENDRO_DMG_BONUS: "dendro_dmg_",
 }
+
+GO_ELEMENT_MAP: Dict[str, str] = {
+    "Water": "Hydro",
+    "Fire": "Pyro",
+    "Ice": "Cryo",
+    "Wind": "Anemo",
+    "Earth": "Geo",
+    "Electric": "Electro",
+    "Grass": "Dendro",
+}

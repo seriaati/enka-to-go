@@ -2,7 +2,7 @@ import json
 from typing import Any, Dict, List
 
 from ..enka.models.character import Character
-from .maps import GO_EQUIPMENT_TYPE_MAP, GO_STAT_KEY_MAP
+from .maps import GO_ELEMENT_MAP, GO_EQUIPMENT_TYPE_MAP, GO_STAT_KEY_MAP
 
 
 class EnkaToGOConverter:
@@ -26,11 +26,24 @@ class EnkaToGOConverter:
         )
         return text
 
-    def _get_character_name(self, character_id: int) -> str:
+    def _get_character_name(self, character_id: int, skill_depot_id: int) -> str:
         excel = next((x for x in self.avatar_excel if x["id"] == character_id), None)
         if excel is None:
             return "Unknown"
-        return self._get_text(excel["nameTextMapHash"])
+        name = self._get_text(excel["nameTextMapHash"])
+        if character_id in (10000005, 10000007):
+            element = next(
+                (
+                    v["Element"]
+                    for k, v in self.characters.items()
+                    if k == f"{character_id}-{skill_depot_id}"
+                ),
+                None,
+            )
+            if element is None:
+                return f"{name}Anemo"
+            return f"{name}{GO_ELEMENT_MAP[element]}"
+        return name
 
     def _get_talent_order(self, character_id: int) -> List[int]:
         return self.characters[str(character_id)]["SkillOrder"]
@@ -52,7 +65,9 @@ class EnkaToGOConverter:
 
         for character in characters:
             # character
-            character_key = self._get_character_name(character.id)
+            character_key = self._get_character_name(
+                character.id, character.skill_depot_id
+            )
             talent_levels = self._get_talent_levels(character.id, character.skills)
             base["characters"].append(
                 {
