@@ -20,7 +20,7 @@ class EnkaToGOConverter:
             self.text_map.get(key, key)
             .replace("'", "")
             .replace('"', "")
-            .replace("-", "")
+            .replace("-", " ")
             .title()
             .replace(" ", "")
         )
