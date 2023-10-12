@@ -8,10 +8,10 @@ class Player(BaseModel):
     level: int
     name_card_id: int = Field(alias="nameCardId")
     nickname: str
-    signature: str
-    abyss_floor: int = Field(alias="towerFloorIndex")
-    abyss_level: int = Field(alias="towerLevelIndex")
-    world_level: int = Field(alias="worldLevel")
+    signature: str = Field("")
+    abyss_floor: int = Field(0, alias="towerFloorIndex")
+    abyss_level: int = Field(0, alias="towerLevelIndex")
+    world_level: int = Field(0, alias="worldLevel")
     profile_picture_avatar_id: int = Field(alias="profilePicture")
 
     @field_validator("profile_picture_avatar_id", mode="before")

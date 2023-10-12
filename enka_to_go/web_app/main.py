@@ -44,9 +44,10 @@ class EnkaToGOWebApp:
         if not uid:
             return await self.page.show_snack_bar_async(
                 ft.SnackBar(
-                    ft.Text("Please enter a UID."),
-                    bgcolor=ft.colors.RED_300,
+                    ft.Text("Please enter a UID.", color=ft.colors.ON_ERROR_CONTAINER),
+                    bgcolor=ft.colors.ERROR_CONTAINER,
                     show_close_icon=True,
+                    close_icon_color=ft.colors.ON_ERROR_CONTAINER,
                 )
             )
 
@@ -62,9 +63,22 @@ class EnkaToGOWebApp:
             logging.exception(e)
             return await self.page.show_snack_bar_async(
                 ft.SnackBar(
-                    ft.Text(f"Error: {e}"),
-                    bgcolor=ft.colors.RED_300,
+                    ft.Text(f"Error: {e}", color=ft.colors.ON_ERROR_CONTAINER),
+                    bgcolor=ft.colors.ERROR_CONTAINER,
                     show_close_icon=True,
+                    close_icon_color=ft.colors.ON_ERROR_CONTAINER,
+                )
+            )
+        if not response.characters:
+            return await self.page.show_snack_bar_async(
+                ft.SnackBar(
+                    ft.Text(
+                        "Error: No characters found in Character Showcase.",
+                        color=ft.colors.ON_ERROR_CONTAINER,
+                    ),
+                    bgcolor=ft.colors.ERROR_CONTAINER,
+                    show_close_icon=True,
+                    close_icon_color=ft.colors.ON_ERROR_CONTAINER,
                 )
             )
         try:
@@ -73,9 +87,13 @@ class EnkaToGOWebApp:
             logging.exception(e)
             return await self.page.show_snack_bar_async(
                 ft.SnackBar(
-                    ft.Text("Error: Failed to convert data."),
-                    bgcolor=ft.colors.RED_300,
+                    ft.Text(
+                        "Error: Failed to convert data.",
+                        color=ft.colors.ON_ERROR_CONTAINER,
+                    ),
+                    bgcolor=ft.colors.ERROR_CONTAINER,
                     show_close_icon=True,
+                    close_icon_color=ft.colors.ON_ERROR_CONTAINER,
                 )
             )
 
@@ -85,9 +103,10 @@ class EnkaToGOWebApp:
 
         await self.page.show_snack_bar_async(
             ft.SnackBar(
-                ft.Text("Complete."),
-                bgcolor=ft.colors.GREEN_300,
+                ft.Text("Complete.", color=ft.colors.ON_TERTIARY_CONTAINER),
+                bgcolor=ft.colors.TERTIARY_CONTAINER,
                 show_close_icon=True,
+                close_icon_color=ft.colors.ON_TERTIARY_CONTAINER,
             )
         )
 
@@ -106,13 +125,17 @@ class EnkaToGOWebApp:
         else:
             await self.page.show_snack_bar_async(
                 ft.SnackBar(
-                    ft.Text("There is nothing to copy."),
-                    bgcolor=ft.colors.RED_300,
+                    ft.Text(
+                        "There is nothing to copy.", color=ft.colors.ON_ERROR_CONTAINER
+                    ),
+                    bgcolor=ft.colors.ERROR_CONTAINER,
                     show_close_icon=True,
+                    close_icon_color=ft.colors.ON_ERROR_CONTAINER,
                 )
             )
 
     async def _add_controls(self) -> None:
+        storage_uid = await self.storage.get_async("uid")
         self.page.appbar = ft.AppBar(
             title=ft.Container(
                 ft.Text("Enka to GO (Genshin Optimizer)", size=20),
@@ -145,7 +168,7 @@ class EnkaToGOWebApp:
                                         label="UID",
                                         hint_text="901211014",
                                         max_length=9,
-                                        value=await self.storage.get_async("uid"),
+                                        value=storage_uid,
                                         on_submit=self._on_submit,
                                     ),
                                     margin=ft.margin.only(right=16),
