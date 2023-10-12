@@ -56,7 +56,7 @@ class WeaponDetailedInfo(BaseModel):
 
 
 class WeaponBaseInfo(BaseModel):
-    refinement: int = Field(alias="affixMap")
+    refinement: int = Field(1, alias="affixMap")
     level: int
     ascension: int = Field(0, alias="promoteLevel")
 
