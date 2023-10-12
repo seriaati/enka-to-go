@@ -76,7 +76,7 @@ class Character(BaseModel):
     artifacts: List[Artifact]
     weapon: Weapon
     stat_map: Dict[str, float] = Field(alias="fightPropMap")
-    constellations: int = Field(None, alias="talentIdList")
+    constellations: int = Field(0, alias="talentIdList")
     skills: Dict[str, int] = Field(alias="skillLevelMap")
     ascension: int
     level: int
@@ -92,8 +92,14 @@ class Character(BaseModel):
     def _transform_values(cls, v: Dict[str, Any]) -> Dict[str, Any]:
         # convert prop map to level and ascension
         prop_map = v["propMap"]
-        v["level"] = prop_map["4001"]["val"]
-        v["ascension"] = prop_map["1002"]["val"]
+        try:
+            v["level"] = prop_map["4001"]["val"]
+        except KeyError:
+            v["level"] = 1
+        try:
+            v["ascension"] = prop_map["1002"]["val"]
+        except KeyError:
+            v["ascension"] = 0
 
         # convert equipment list to weapon and artifacts
         equip_list = v["equipList"]
