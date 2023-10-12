@@ -9,49 +9,16 @@ from ..go.converter import EnkaToGOConverter
 
 
 class EnkaToGOWebApp:
-    def __init__(self, page: ft.Page, session: aiohttp.ClientSession):
+    def __init__(self, page: ft.Page):
         self.page = page
         assert self.page.client_storage
         self.storage = self.page.client_storage
-        self.session = session
-        self.api = EnkaNetworkAPI(self.session)
-        self.converter: EnkaToGOConverter
+        self.api = EnkaNetworkAPI()
+        self.converter = EnkaToGOConverter()
 
         # control refs
         self.uid_text_field = ft.Ref[ft.TextField]()
         self.result_json = ft.Ref[ft.TextField]()
-
-    async def _update_text_map(self) -> None:
-        async with self.session.get(
-            "https://gitlab.com/Dimbreath/AnimeGameData/-/raw/master/TextMap/TextMapEN.json"
-        ) as resp:
-            text = await resp.text()
-        data = json.loads(text)
-        with open("data/text_map.json", "w") as f:
-            json.dump(data, f)
-
-    async def _update_avatar_excel_config_data(self) -> None:
-        async with self.session.get(
-            "https://gitlab.com/Dimbreath/AnimeGameData/-/raw/master/ExcelBinOutput/AvatarExcelConfigData.json"
-        ) as resp:
-            text = await resp.text()
-        data = json.loads(text)
-        with open("data/avatar_excel_config_data.json", "w") as f:
-            json.dump(data, f)
-
-    async def _update_characters_json(self) -> None:
-        async with self.session.get(
-            "https://raw.githubusercontent.com/EnkaNetwork/API-docs/master/store/characters.json"
-        ) as resp:
-            text = await resp.text()
-        data = json.loads(text)
-        with open("data/characters.json", "w") as f:
-            json.dump(data, f)
-
-    async def _update_data(self) -> None:
-        await self._update_text_map()
-        await self._update_avatar_excel_config_data()
-        await self._update_characters_json()
 
     async def _on_submit(self, _: ft.ControlEvent) -> None:
         await self.page.show_snack_bar_async(
@@ -245,7 +212,4 @@ class EnkaToGOWebApp:
             )
         ]
         await self.page.update_async()
-
-        await self._update_data()
         await self._add_controls()
-        self.converter = EnkaToGOConverter()
