@@ -2,7 +2,7 @@ from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 
-from ..enums import EquipmentType, FightProp, ItemType, StatType
+from ..enums import EquipmentType, ItemType, StatType
 
 
 class MainStat(BaseModel):
