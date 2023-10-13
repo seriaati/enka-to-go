@@ -15,5 +15,6 @@ class Player(BaseModel):
     profile_picture_avatar_id: int = Field(alias="profilePicture")
 
     @field_validator("profile_picture_avatar_id", mode="before")
+    @classmethod
     def _extract_avatar_id(cls, v: Dict[str, int]) -> int:
-        return v["avatarId"]
+        return v.get("avatarId", v.get("id", 0))
