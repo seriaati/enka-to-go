@@ -1,10 +1,10 @@
 {
     "apps": [
         {
-            "name": "enka to go",
+            "name": "enka-to-go",
             "script": "./run.py",
             "interpreter": "./.venv/bin/python",
-            "cron_restart": "0 0 * * *"
+            "cron_restart": "0 1 * * *"
         }
     ]
 }
