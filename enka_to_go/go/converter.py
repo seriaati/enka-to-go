@@ -4,20 +4,20 @@ from typing import Any, Dict, List
 from ..enka.models.character import Character
 from .maps import GO_ELEMENT_MAP, GO_EQUIPMENT_TYPE_MAP, GO_STAT_KEY_MAP
 
+with open("data/text_map.json", "r") as f:
+    TEXT_MAP: Dict[str, str] = json.load(f)
+with open("data/avatar_excel_config_data.json", "r") as f:
+    AVATAR_EXCEL: List[Dict[str, Any]] = json.load(f)
+with open("data/characters.json", "r") as f:
+    CHARACTER_DATA: Dict[str, Dict[str, Any]] = json.load(f)
+
 
 class EnkaToGOConverter:
-    def __init__(self):
-        with open("data/text_map.json", "r") as f:
-            self.text_map: Dict[str, str] = json.load(f)
-        with open("data/avatar_excel_config_data.json", "r") as f:
-            self.avatar_excel: List[Dict[str, Any]] = json.load(f)
-        with open("data/characters.json", "r") as f:
-            self.characters: Dict[str, Dict[str, Any]] = json.load(f)
-
-    def _get_text(self, key: str) -> str:
+    @staticmethod
+    def _get_text(key: str) -> str:
         key = str(key)
         text = (
-            self.text_map.get(key, key)
+            TEXT_MAP.get(key, key)
             .replace("'", "")
             .replace('"', "")
             .replace("-", " ")
@@ -26,16 +26,21 @@ class EnkaToGOConverter:
         )
         return text
 
-    def _get_character_name(self, character_id: int, skill_depot_id: int) -> str:
-        excel = next((x for x in self.avatar_excel if x["id"] == character_id), None)
+    @staticmethod
+    def _get_talent_order(character_id: int) -> List[int]:
+        return CHARACTER_DATA[str(character_id)]["SkillOrder"]
+
+    @classmethod
+    def _get_character_name(cls, character_id: int, skill_depot_id: int) -> str:
+        excel = next((x for x in AVATAR_EXCEL if x["id"] == character_id), None)
         if excel is None:
             return "Unknown"
-        name = self._get_text(excel["nameTextMapHash"])
+        name = cls._get_text(excel["nameTextMapHash"])
         if character_id in (10000005, 10000007):
             element = next(
                 (
                     v["Element"]
-                    for k, v in self.characters.items()
+                    for k, v in CHARACTER_DATA.items()
                     if k == f"{character_id}-{skill_depot_id}"
                 ),
                 None,
@@ -45,15 +50,14 @@ class EnkaToGOConverter:
             return f"{name}{GO_ELEMENT_MAP[element]}"
         return name
 
-    def _get_talent_order(self, character_id: int) -> List[int]:
-        return self.characters[str(character_id)]["SkillOrder"]
-
+    @classmethod
     def _get_talent_levels(
-        self, character_id: int, talents: Dict[str, int]
+        cls, character_id: int, talents: Dict[str, int]
     ) -> List[int]:
-        return [talents.get(str(x), 1) for x in self._get_talent_order(character_id)]
+        return [talents.get(str(x), 1) for x in cls._get_talent_order(character_id)]
 
-    def convert(self, characters: List[Character]) -> Dict[str, Any]:
+    @classmethod
+    def convert(cls, characters: List[Character]) -> Dict[str, Any]:
         base = {
             "format": "GOOD",
             "version": 2,
@@ -65,10 +69,10 @@ class EnkaToGOConverter:
 
         for character in characters:
             # character
-            character_key = self._get_character_name(
+            character_key = cls._get_character_name(
                 character.id, character.skill_depot_id
             )
-            talent_levels = self._get_talent_levels(character.id, character.skills)
+            talent_levels = cls._get_talent_levels(character.id, character.skills)
             base["characters"].append(
                 {
                     "key": character_key,
@@ -86,7 +90,7 @@ class EnkaToGOConverter:
             weapon = character.weapon
             base["weapons"].append(
                 {
-                    "key": self._get_text(weapon.detailed_info.name_text_map_hash),
+                    "key": cls._get_text(weapon.detailed_info.name_text_map_hash),
                     "level": weapon.base_info.level,
                     "ascension": weapon.base_info.ascension,
                     "refinement": weapon.base_info.refinement,
@@ -99,7 +103,7 @@ class EnkaToGOConverter:
             for artifact in character.artifacts:
                 base["artifacts"].append(
                     {
-                        "setKey": self._get_text(
+                        "setKey": cls._get_text(
                             artifact.detailed_info.set_name_text_map_hash
                         ),
                         "slotKey": GO_EQUIPMENT_TYPE_MAP[
