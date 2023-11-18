@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "enka-to-go"
+version = "0.1.0"
+description = ""
+authors = ["seriaati <seria.ati@gmail.com>"]
+license = "GPL v3.0"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+aiohttp = "^3.9.0"
+flet = "^0.12.2"
+pydantic = "^2.5.1"
+cachetools = "^5.3.2"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.3"
+pytest-asyncio = "^0.21.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
