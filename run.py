@@ -21,7 +21,7 @@ async def main(page: ft.Page):
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
     web_app = EnkaToGOWebApp(page)
-    await web_app.run(page)
+    await web_app.add_controls()
 
 
 ft.app(

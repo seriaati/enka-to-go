@@ -1,7 +1,6 @@
 import json
 import logging
 
-import aiohttp
 import flet as ft
 
 from ..enka.request import EnkaNetworkAPI
@@ -13,8 +12,6 @@ class EnkaToGOWebApp:
         self.page = page
         assert self.page.client_storage
         self.storage = self.page.client_storage
-        self.api = EnkaNetworkAPI()
-        self.converter = EnkaToGOConverter()
 
         # control refs
         self.uid_text_field = ft.Ref[ft.TextField]()
@@ -58,7 +55,7 @@ class EnkaToGOWebApp:
 
         # fetch and convert data
         try:
-            response = await self.api.fetch_showcase(uid)
+            response = await EnkaNetworkAPI.fetch_showcase(uid)
         except Exception as e:
             logging.exception(e)
             return await self.page.show_snack_bar_async(
@@ -82,7 +79,7 @@ class EnkaToGOWebApp:
                 )
             )
         try:
-            converted = self.converter.convert(response.characters)
+            converted = EnkaToGOConverter.convert(response.characters)
         except Exception as e:
             logging.exception(e)
             return await self.page.show_snack_bar_async(
@@ -134,7 +131,7 @@ class EnkaToGOWebApp:
                 )
             )
 
-    async def _add_controls(self) -> None:
+    async def add_controls(self) -> None:
         storage_uid = await self.storage.get_async("uid")
         self.page.appbar = ft.AppBar(
             title=ft.Container(
@@ -220,19 +217,3 @@ class EnkaToGOWebApp:
             )
         ]
         await self.page.update_async()
-
-    async def run(self, page: ft.Page) -> None:
-        self.page = page
-        assert self.page.client_storage
-        self.storage = self.page.client_storage
-
-        self.page.controls = [
-            ft.Row(
-                [
-                    ft.ProgressRing(width=16, height=16, stroke_width=2),
-                    ft.Text("Updating data..."),
-                ]
-            )
-        ]
-        await self.page.update_async()
-        await self._add_controls()
