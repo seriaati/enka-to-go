@@ -62,7 +62,7 @@ class WeaponBaseInfo(BaseModel):
 
     @field_validator("refinement", mode="before")
     def _extract_refinement(cls, v: Dict[str, int]) -> int:
-        return list(v.values())[0]
+        return list(v.values())[0] + 1
 
 
 class Weapon(BaseModel):
