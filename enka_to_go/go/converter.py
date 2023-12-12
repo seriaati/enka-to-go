@@ -4,11 +4,11 @@ from typing import Any, Dict, List
 from ..enka.models.character import Character
 from .maps import GO_ELEMENT_MAP, GO_EQUIPMENT_TYPE_MAP, GO_STAT_KEY_MAP
 
-with open("data/text_map.json", "r") as f:
+with open("data/text_map.json") as f:
     TEXT_MAP: Dict[str, str] = json.load(f)
-with open("data/avatar_excel_config_data.json", "r") as f:
+with open("data/avatar_excel_config_data.json") as f:
     AVATAR_EXCEL: List[Dict[str, Any]] = json.load(f)
-with open("data/characters.json", "r") as f:
+with open("data/characters.json") as f:
     CHARACTER_DATA: Dict[str, Dict[str, Any]] = json.load(f)
 
 
