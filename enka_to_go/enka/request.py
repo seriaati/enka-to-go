@@ -14,10 +14,9 @@ class EnkaNetworkAPI:
         url = BASE_URL.format(uid=uid)
         async with aiohttp.ClientSession(
             headers={"User-Agent": "Enka to GO"}
-        ) as session:
-            async with session.get(url) as resp:
-                if resp.status != 200:
-                    raise_for_retcode(resp.status)
+        ) as session, session.get(url) as resp:
+            if resp.status != 200:
+                raise_for_retcode(resp.status)
 
-                data: Dict[str, Any] = await resp.json()
-                return ShowcaseResponse(**data)
+            data: Dict[str, Any] = await resp.json()
+            return ShowcaseResponse(**data)
