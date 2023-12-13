@@ -131,24 +131,32 @@ class EnkaToGOWebApp:
                 )
             )
 
+    async def _popup_menu_item_on_click(self, e: ft.ControlEvent) -> None:
+        await self.page.launch_url_async(e.control.data)
+
     async def add_controls(self) -> None:
         storage_uid = await self.storage.get_async("uid")
         self.page.appbar = ft.AppBar(
             title=ft.Container(
-                ft.Text("Enka to GO (Genshin Optimizer)", size=20),
+                ft.Text("Enka to GO", size=20),
                 margin=ft.margin.symmetric(vertical=10),
             ),
             actions=[
-                ft.IconButton(
-                    icon=ft.icons.CHAT_OUTLINED,
-                    url="https://discord.com/users/410036441129943050",
-                ),
-                ft.IconButton(
-                    icon=ft.icons.CODE_OUTLINED,
-                    url="https://github.com/seriaati/enka-to-go",
-                ),
-                ft.IconButton(
-                    icon=ft.icons.COFFEE_OUTLINED, url="https://ko-fi.com/chatmind"
+                ft.PopupMenuButton(
+                    items=[
+                        ft.PopupMenuItem(
+                            icon=ft.icons.CHAT_OUTLINED,
+                            text="Contact me on Discord",
+                            data="https://discord.com/users/410036441129943050",
+                            on_click=self._popup_menu_item_on_click,
+                        ),
+                        ft.PopupMenuItem(
+                            icon=ft.icons.CODE_OUTLINED,
+                            text="Source code",
+                            data="https://github.com/seriaati/enka-to-go",
+                            on_click=self._popup_menu_item_on_click,
+                        ),
+                    ]
                 ),
             ],
             toolbar_height=64,
