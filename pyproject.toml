@@ -61,7 +61,7 @@ body = """
 """
 trim = true
 postprocessors = [
-    { pattern = '\$REPO', replace = "https://github.com/seriaati/ambr" },
+    { pattern = '\$REPO', replace = "https://github.com/seriaati/enka-to-go" },
 ]
 
 [tool.git-cliff.git]
