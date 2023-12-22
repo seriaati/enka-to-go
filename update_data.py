@@ -7,7 +7,7 @@ import aiohttp
 async def update_data():
     async with aiohttp.ClientSession() as session:
         async with session.get(
-            "https://gitlab.com/Dimbreath/AnimeGameData/-/raw/master/TextMap/TextMapEN.json"
+            "https://gitlab.com/Dimbreath/AnimeGameData/-/raw/main/TextMap/TextMapEN.json"
         ) as resp:
             text = await resp.text()
         data = json.loads(text)
@@ -15,7 +15,7 @@ async def update_data():
             json.dump(data, f)
 
         async with session.get(
-            "https://gitlab.com/Dimbreath/AnimeGameData/-/raw/master/ExcelBinOutput/AvatarExcelConfigData.json"
+            "https://gitlab.com/Dimbreath/AnimeGameData/-/raw/main/ExcelBinOutput/AvatarExcelConfigData.json"
         ) as resp:
             text = await resp.text()
         data = json.loads(text)
