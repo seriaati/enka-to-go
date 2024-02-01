@@ -1,3 +1,6 @@
+[project]
+requires-python = ">=3.11"
+
 [tool.poetry]
 name = "enka-to-go"
 version = "0.1.0"
@@ -11,11 +14,12 @@ python = "^3.11"
 aiohttp = "^3.9.0"
 flet = "^0.12.2"
 pydantic = "^2.5.1"
+enka-py = {git = "https://github.com/seriaati/enka-py"}
 
+[tool.poetry.group.dev]
+optional = true
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^7.4.3"
-pytest-asyncio = "^0.21.1"
 ruff = "^0.1.7"
 git-cliff = "^1.4.0"
 
@@ -23,11 +27,28 @@ git-cliff = "^1.4.0"
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
+[tool.ruff]
+line-length = 100
+
 [tool.ruff.lint]
-select = ["E","F","UP","B","SIM","I"]
+select = [
+    "E","W","C90","F","UP","B","SIM","I","N","TCH",
+    "ANN","ASYNC","A","C4","EM","FA","ICN","G",
+    "PIE","T20","ARG","ERA","LOG","PL","TRY"
+]
+ignore = [
+    "E501","ANN401","ANN101","ANN102","ANN003",
+    "PLR0913","PLR2004","PLR0917","PLR6301",
+    "ANN002"
+]
+preview = true
 
 [tool.ruff.per-file-ignores]
 "**/__init__.py" = ["F403"]
+"playground.*.py" = ["ALL"]
+
+[tool.ruff.lint.flake8-type-checking]
+quote-annotations = true
 
 [tool.git-cliff.changelog]
 body = """
@@ -61,7 +82,7 @@ body = """
 """
 trim = true
 postprocessors = [
-    { pattern = '\$REPO', replace = "https://github.com/seriaati/enka-to-go" },
+    { pattern = '\$REPO', replace = "https://github.com/seriaati/hoyo-buddy" },
 ]
 
 [tool.git-cliff.git]

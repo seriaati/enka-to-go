@@ -1,8 +1,6 @@
-from typing import Dict
+from enka import EquipmentType, StatType
 
-from ..enka.enums import EquipmentType, StatType
-
-GO_EQUIPMENT_TYPE_MAP: Dict[EquipmentType, str] = {
+GO_EQUIPMENT_TYPE_MAP: dict[EquipmentType, str] = {
     EquipmentType.FLOWER: "flower",
     EquipmentType.FEATHER: "plume",
     EquipmentType.SANDS: "sands",
@@ -10,34 +8,24 @@ GO_EQUIPMENT_TYPE_MAP: Dict[EquipmentType, str] = {
     EquipmentType.CIRCLET: "circlet",
 }
 
-GO_STAT_KEY_MAP: Dict[StatType, str] = {
-    StatType.FLAT_HP: "hp",
-    StatType.HP_PERCENT: "hp_",
-    StatType.FLAT_ATK: "atk",
-    StatType.ATK_PERCENT: "atk_",
-    StatType.FLAT_DEF: "def",
-    StatType.DEF_PERCENT: "def_",
-    StatType.ELEMENTAL_MASTERY: "eleMas",
-    StatType.ENERGY_RECHARGE: "enerRech_",
-    StatType.HEALING_BONUS: "heal_",
-    StatType.CRIT_RATE: "critRate_",
-    StatType.CRIT_DMG: "critDMG_",
-    StatType.PHYSICAL_DMG_BONUS: "physical_dmg_",
-    StatType.ANEMO_DMG_BONUS: "anemo_dmg_",
-    StatType.ELECTRO_DMG_BONUS: "electro_dmg_",
-    StatType.HYDRO_DMG_BONUS: "hydro_dmg_",
-    StatType.PYRO_DMG_BONUS: "pyro_dmg_",
-    StatType.CRYO_DMG_BONUS: "cryo_dmg_",
-    StatType.GEO_DMG_BONUS: "geo_dmg_",
-    StatType.DENDRO_DMG_BONUS: "dendro_dmg_",
-}
-
-GO_ELEMENT_MAP: Dict[str, str] = {
-    "Water": "Hydro",
-    "Fire": "Pyro",
-    "Ice": "Cryo",
-    "Wind": "Anemo",
-    "Earth": "Geo",
-    "Electric": "Electro",
-    "Grass": "Dendro",
+GO_STAT_KEY_MAP: dict[StatType, str] = {
+    StatType.FIGHT_PROP_HP: "hp",
+    StatType.FIGHT_PROP_HP_PERCENT: "hp_",
+    StatType.FIGHT_PROP_ATTACK: "atk",
+    StatType.FIGHT_PROP_ATTACK_PERCENT: "atk_",
+    StatType.FIGHT_PROP_DEFENSE: "def",
+    StatType.FIGHT_PROP_DEFENSE_PERCENT: "def_",
+    StatType.FIGHT_PROP_ELEMENT_MASTERY: "eleMas",
+    StatType.FIGHT_PROP_CHARGE_EFFICIENCY: "enerRech_",
+    StatType.FIGHT_PROP_HEAL_ADD: "heal_",
+    StatType.FIGHT_PROP_CRITICAL: "critRate_",
+    StatType.FIGHT_PROP_CRITICAL_HURT: "critDMG_",
+    StatType.FIGHT_PROP_PHYSICAL_ADD_HURT: "physical_dmg_",
+    StatType.FIGHT_PROP_WIND_ADD_HURT: "anemo_dmg_",
+    StatType.FIGHT_PROP_ELEC_ADD_HURT: "electro_dmg_",
+    StatType.FIGHT_PROP_WATER_ADD_HURT: "hydro_dmg_",
+    StatType.FIGHT_PROP_FIRE_ADD_HURT: "pyro_dmg_",
+    StatType.FIGHT_PROP_ICE_ADD_HURT: "cryo_dmg_",
+    StatType.FIGHT_PROP_ROCK_ADD_HURT: "geo_dmg_",
+    StatType.FIGHT_PROP_GRASS_ADD_HURT: "dendro_dmg_",
 }

@@ -1,63 +1,29 @@
-import json
-from typing import Any, Dict, List
+from typing import TYPE_CHECKING, Any
 
-from ..enka.models.character import Character
-from .maps import GO_ELEMENT_MAP, GO_EQUIPMENT_TYPE_MAP, GO_STAT_KEY_MAP
+from .maps import GO_EQUIPMENT_TYPE_MAP, GO_STAT_KEY_MAP
 
-with open("data/text_map.json") as f:
-    TEXT_MAP: Dict[str, str] = json.load(f)
-with open("data/avatar_excel_config_data.json") as f:
-    AVATAR_EXCEL: List[Dict[str, Any]] = json.load(f)
-with open("data/characters.json") as f:
-    CHARACTER_DATA: Dict[str, Dict[str, Any]] = json.load(f)
+if TYPE_CHECKING:
+    from enka.models import Character, Talent
 
 
 class EnkaToGOConverter:
-    @staticmethod
-    def _get_text(key: str) -> str:
-        key = str(key)
-        text = (
-            TEXT_MAP.get(key, key)
-            .replace("'", "")
-            .replace('"', "")
-            .replace("-", " ")
-            .title()
-            .replace(" ", "")
-        )
-        return text
-
-    @staticmethod
-    def _get_talent_order(character_id: int) -> List[int]:
-        return CHARACTER_DATA[str(character_id)]["SkillOrder"]
+    @classmethod
+    def _format_key(cls, key: str) -> str:
+        return key.replace("'", "").replace('"', "").replace("-", " ").title().replace(" ", "")
 
     @classmethod
-    def _get_character_name(cls, character_id: int, skill_depot_id: int) -> str:
-        excel = next((x for x in AVATAR_EXCEL if x["id"] == character_id), None)
-        if excel is None:
-            return "Unknown"
-        name = cls._get_text(excel["nameTextMapHash"])
-        if character_id in (10000005, 10000007):
-            element = next(
-                (
-                    v["Element"]
-                    for k, v in CHARACTER_DATA.items()
-                    if k == f"{character_id}-{skill_depot_id}"
-                ),
-                None,
-            )
-            if element is None:
-                return f"{name}Anemo"
-            return f"{name}{GO_ELEMENT_MAP[element]}"
-        return name
+    def _get_talent_levels(cls, talents: list["Talent"], talent_order: list[int]) -> list[int]:
+        talent_levels: list[int] = [1, 1, 1]
+        for i, talent_id in enumerate(talent_order):
+            talent = next((t for t in talents if t.id == talent_id), None)
+            if talent is None:
+                continue
+            talent_levels[i] = talent.level
+
+        return talent_levels
 
     @classmethod
-    def _get_talent_levels(
-        cls, character_id: int, talents: Dict[str, int]
-    ) -> List[int]:
-        return [talents.get(str(x), 1) for x in cls._get_talent_order(character_id)]
-
-    @classmethod
-    def convert(cls, characters: List[Character]) -> Dict[str, Any]:
+    def convert(cls, characters: list["Character"]) -> dict[str, Any]:
         base = {
             "format": "GOOD",
             "version": 2,
@@ -69,13 +35,15 @@ class EnkaToGOConverter:
 
         for character in characters:
             # character
-            character_key = cls._get_character_name(
-                character.id, character.skill_depot_id
-            )
-            talent_levels = cls._get_talent_levels(character.id, character.skills)
+            if character.id in {10000005, 10000007}:  # Traveler
+                character_name = f"{character.name} {character.element.name.title()}"
+            else:
+                character_name = character.name
+
+            talent_levels = cls._get_talent_levels(character.talents, character.talent_order)
             base["characters"].append(
                 {
-                    "key": character_key,
+                    "key": cls._format_key(character_name),
                     "level": character.level,
                     "ascension": character.ascension,
                     "talent": {
@@ -86,15 +54,18 @@ class EnkaToGOConverter:
                 }
             )
 
+            # resset character name because GO uses Traveler for location, not TravelerDendro or TravelerAnemo
+            character_name = character.name
+
             # weapon
             weapon = character.weapon
             base["weapons"].append(
                 {
-                    "key": cls._get_text(weapon.detailed_info.name_text_map_hash),
-                    "level": weapon.base_info.level,
-                    "ascension": weapon.base_info.ascension,
-                    "refinement": weapon.base_info.refinement,
-                    "location": character_key,
+                    "key": cls._format_key(weapon.name),
+                    "level": weapon.level,
+                    "ascension": weapon.ascension,
+                    "refinement": weapon.refinement,
+                    "location": cls._format_key(character_name),
                     "lock": False,
                 }
             )
@@ -103,24 +74,18 @@ class EnkaToGOConverter:
             for artifact in character.artifacts:
                 base["artifacts"].append(
                     {
-                        "setKey": cls._get_text(
-                            artifact.detailed_info.set_name_text_map_hash
-                        ),
-                        "slotKey": GO_EQUIPMENT_TYPE_MAP[
-                            artifact.detailed_info.equip_type
-                        ],
-                        "rarity": artifact.detailed_info.rarity,
-                        "level": artifact.base_info.level,
-                        "mainStatKey": GO_STAT_KEY_MAP[
-                            artifact.detailed_info.main_stat.type
-                        ],
-                        "location": character_key,
+                        "setKey": cls._format_key(artifact.set_name),
+                        "slotKey": GO_EQUIPMENT_TYPE_MAP[artifact.equip_type],
+                        "rarity": artifact.rarity,
+                        "level": artifact.level,
+                        "mainStatKey": GO_STAT_KEY_MAP[artifact.main_stat.type],
+                        "location": cls._format_key(character_name),
                         "substats": [
                             {
                                 "key": GO_STAT_KEY_MAP[ss.type],
                                 "value": ss.value,
                             }
-                            for ss in artifact.detailed_info.sub_stats
+                            for ss in artifact.sub_stats
                         ],
                         "lock": False,
                     }

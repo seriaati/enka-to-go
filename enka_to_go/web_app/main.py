@@ -1,17 +1,23 @@
 import json
 import logging
+from typing import TYPE_CHECKING
 
 import flet as ft
 
-from ..enka.request import EnkaNetworkAPI
 from ..go.converter import EnkaToGOConverter
+
+if TYPE_CHECKING:
+    from enka import EnkaAPI
+
+LOGGER_ = logging.getLogger(__name__)
 
 
 class EnkaToGOWebApp:
-    def __init__(self, page: ft.Page):
+    def __init__(self, page: ft.Page, api: "EnkaAPI") -> None:
         self.page = page
         assert self.page.client_storage
         self.storage = self.page.client_storage
+        self.api = api
 
         # control refs
         self.uid_text_field = ft.Ref[ft.TextField]()
@@ -28,9 +34,7 @@ class EnkaToGOWebApp:
                             stroke_width=2,
                             color=ft.colors.ON_SECONDARY_CONTAINER,
                         ),
-                        ft.Text(
-                            "Fetching data...", color=ft.colors.ON_SECONDARY_CONTAINER
-                        ),
+                        ft.Text("Fetching data...", color=ft.colors.ON_SECONDARY_CONTAINER),
                     ]
                 ),
                 bgcolor=ft.colors.SECONDARY_CONTAINER,
@@ -55,9 +59,9 @@ class EnkaToGOWebApp:
 
         # fetch and convert data
         try:
-            response = await EnkaNetworkAPI.fetch_showcase(uid)
+            response = await self.api.fetch_showcase(uid)
         except Exception as e:
-            logging.exception(e)
+            LOGGER_.exception("Failed to fetch data.")
             return await self.page.show_snack_bar_async(
                 ft.SnackBar(
                     ft.Text(f"Error: {e}", color=ft.colors.ON_ERROR_CONTAINER),
@@ -80,8 +84,8 @@ class EnkaToGOWebApp:
             )
         try:
             converted = EnkaToGOConverter.convert(response.characters)
-        except Exception as e:
-            logging.exception(e)
+        except Exception:
+            LOGGER_.exception("Failed to convert data.")
             return await self.page.show_snack_bar_async(
                 ft.SnackBar(
                     ft.Text(
@@ -122,9 +126,7 @@ class EnkaToGOWebApp:
         else:
             await self.page.show_snack_bar_async(
                 ft.SnackBar(
-                    ft.Text(
-                        "There is nothing to copy.", color=ft.colors.ON_ERROR_CONTAINER
-                    ),
+                    ft.Text("There is nothing to copy.", color=ft.colors.ON_ERROR_CONTAINER),
                     bgcolor=ft.colors.ERROR_CONTAINER,
                     show_close_icon=True,
                     close_icon_color=ft.colors.ON_ERROR_CONTAINER,
