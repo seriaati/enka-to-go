@@ -12,7 +12,7 @@ version = "1.0.3"
 
 [tool.poetry.dependencies]
 enka-api = "^2.2.4"
-flet = "^0.12.2"
+flet = "^0.23.0"
 python = "^3.11"
 loguru = "^0.7.2"
 
