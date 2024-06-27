@@ -1,23 +1,17 @@
 import json
-import logging
-from typing import TYPE_CHECKING
 
+import enka
 import flet as ft
+from loguru import logger
 
 from ..go.converter import EnkaToGOConverter
 
-if TYPE_CHECKING:
-    from enka import EnkaAPI
-
-LOGGER_ = logging.getLogger(__name__)
-
 
 class EnkaToGOWebApp:
-    def __init__(self, page: ft.Page, api: "EnkaAPI") -> None:
+    def __init__(self, page: ft.Page) -> None:
         self.page = page
         assert self.page.client_storage
         self.storage = self.page.client_storage
-        self.api = api
 
         # control refs
         self.uid_text_field = ft.Ref[ft.TextField]()
@@ -59,9 +53,10 @@ class EnkaToGOWebApp:
 
         # fetch and convert data
         try:
-            response = await self.api.fetch_showcase(uid)
+            async with enka.GenshinClient() as client:
+                response = await client.fetch_showcase(uid)
         except Exception as e:
-            LOGGER_.exception("Failed to fetch data.")
+            logger.exception("Failed to fetch data.")
             return await self.page.show_snack_bar_async(
                 ft.SnackBar(
                     ft.Text(f"Error: {e}", color=ft.colors.ON_ERROR_CONTAINER),
@@ -85,7 +80,7 @@ class EnkaToGOWebApp:
         try:
             converted = EnkaToGOConverter.convert(response.characters)
         except Exception:
-            LOGGER_.exception("Failed to convert data.")
+            logger.exception("Failed to convert data.")
             return await self.page.show_snack_bar_async(
                 ft.SnackBar(
                     ft.Text(

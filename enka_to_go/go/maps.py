@@ -1,4 +1,4 @@
-from enka import EquipmentType, StatType
+from enka.gi import EquipmentType, StatType
 
 GO_EQUIPMENT_TYPE_MAP: dict[EquipmentType, str] = {
     EquipmentType.FLOWER: "flower",

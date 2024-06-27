@@ -1,9 +1,11 @@
+from __future__ import annotations
+
 from typing import TYPE_CHECKING, Any
 
 from .maps import GO_EQUIPMENT_TYPE_MAP, GO_STAT_KEY_MAP
 
 if TYPE_CHECKING:
-    from enka.models import Character, Talent
+    from enka.gi import Character, Talent
 
 
 class EnkaToGOConverter:
@@ -12,7 +14,7 @@ class EnkaToGOConverter:
         return key.replace("'", "").replace('"', "").replace("-", " ").title().replace(" ", "")
 
     @classmethod
-    def _get_talent_levels(cls, talents: list["Talent"], talent_order: list[int]) -> list[int]:
+    def _get_talent_levels(cls, talents: list[Talent], talent_order: list[int]) -> list[int]:
         talent_levels: list[int] = [1, 1, 1]
         for i, talent_id in enumerate(talent_order):
             talent = next((t for t in talents if t.id == talent_id), None)
@@ -23,7 +25,7 @@ class EnkaToGOConverter:
         return talent_levels
 
     @classmethod
-    def convert(cls, characters: list["Character"]) -> dict[str, Any]:
+    def convert(cls, characters: list[Character]) -> dict[str, Any]:
         base = {
             "format": "GOOD",
             "version": 2,
