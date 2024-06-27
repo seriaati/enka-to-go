@@ -8,7 +8,7 @@ description = ""
 license = "GPL v3.0"
 name = "enka-to-go"
 readme = "README.md"
-version = "1.0.2"
+version = "1.0.3"
 
 [tool.poetry.dependencies]
 enka-api = "^2.2.4"
