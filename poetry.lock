@@ -417,13 +417,13 @@ rich = "*"
 
 [[package]]
 name = "enka-api"
-version = "2.2.5"
+version = "2.2.6"
 description = "An async API wrapper for enka.network written in Python."
 optional = false
 python-versions = "<4.0,>=3.10"
 files = [
-    {file = "enka_api-2.2.5-py3-none-any.whl", hash = "sha256:ec640e82d73fe73e490dd6690e803f075d317b46f98aba33dbd7b7a9b16cb70e"},
-    {file = "enka_api-2.2.5.tar.gz", hash = "sha256:c26bd47af2a723d12d95aa12bcf6ac4f2efb54ca3127fe89ad155efc5db2d760"},
+    {file = "enka_api-2.2.6-py3-none-any.whl", hash = "sha256:c435d1fa72d83089da10ac6b57f451bf680d0ebeeb3b92fb1db7229d3303f9a9"},
+    {file = "enka_api-2.2.6.tar.gz", hash = "sha256:ab9258314d596c2fb914eb63f5dbc47a89689a65982d4f0b364dd03ff7fb82af"},
 ]
 
 [package.dependencies]
