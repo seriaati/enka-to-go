@@ -1,18 +1,8 @@
-import logging
 import sys
 
 import flet as ft
 
 from enka_to_go.web_app.main import EnkaToGOWebApp
-
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s %(levelname)s %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-    handlers=[
-        logging.StreamHandler(),
-    ],
-)
 
 
 async def main(page: ft.Page) -> None:
