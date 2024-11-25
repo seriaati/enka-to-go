@@ -6,7 +6,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "enka-api>=2.4.0",
-    "flet==0.24.0",
+    "flet>=0.24.1",
 ]
 license = { file = "LICENSE" }
 authors = [{ name = "seriaati", email = "seria.ati@gmail.com" }]
