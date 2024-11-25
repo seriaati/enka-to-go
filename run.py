@@ -1,5 +1,3 @@
-import sys
-
 import flet as ft
 
 from enka_to_go.web_app.main import EnkaToGOWebApp
@@ -14,8 +12,4 @@ async def main(page: ft.Page) -> None:
     await web_app.add_controls()
 
 
-ft.app(
-    target=main,
-    view=None if sys.platform == "linux" else ft.AppView.WEB_BROWSER,
-    port=7091,
-)
+ft.app(target=main, view=None, port=7091)
