@@ -169,7 +169,7 @@ class EnkaToGOWebApp:
                                         ref=self.uid_text_field,
                                         label="UID",
                                         hint_text="901211014",
-                                        max_length=9,
+                                        max_length=10,
                                         value=storage_uid,
                                         on_submit=self._on_submit,
                                     ),
