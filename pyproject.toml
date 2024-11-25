@@ -1,75 +1,15 @@
 [project]
 name = "enka-to-go"
-requires-python = ">=3.11"
-
-[tool.poetry]
-authors = ["seriaati <seria.ati@gmail.com>"]
-description = ""
-license = "GPL v3.0"
-name = "enka-to-go"
+version = "1.0.4"
+description = "Export your Enka showcase to Genshin Optimizer for damage calculation."
 readme = "README.md"
-version = "1.0.3"
-package-mode = false
-
-[tool.poetry.dependencies]
-enka-api = "^2.2.4"
-flet = "^0.24.0"
-python = "^3.11"
-loguru = "^0.7.2"
-
-[tool.poetry.group.dev]
-optional = true
-
-[tool.poetry.group.dev.dependencies]
-ruff = "^0.8.0"
-
-[build-system]
-build-backend = "poetry.core.masonry.api"
-requires = ["poetry-core"]
-
-[tool.ruff]
-line-length = 100
-
-[tool.ruff.lint]
-ignore = [
-  "E501",
-  "ANN401",
-  "ANN101",
-  "ANN102",
-  "PLR0913",
-  "PLR2004",
-  "PLR0917",
-  "PLR6301",
-  "ANN002",
-  "ERA001",
-  "RUF100",
+requires-python = ">=3.11"
+dependencies = [
+    "enka-api>=2.4.0",
+    "flet==0.24.0",
 ]
-preview = true
-select = [
-  "E",
-  "W",
-  "C90",
-  "F",
-  "UP",
-  "B",
-  "SIM",
-  "I",
-  "N",
-  "TCH",
-  "ANN",
-  "ASYNC",
-  "A",
-  "C4",
-  "EM",
-  "FA",
-  "ICN",
-  "G",
-  "PIE",
-  "T20",
-  "ARG",
-  "ERA",
-  "LOG",
-  "PL",
-  "TRY",
-  "RUF",
-]
+license = { file = "LICENSE" }
+authors = [{ name = "seriaati", email = "seria.ati@gmail.com" }]
+
+[tool.pyright]
+typeCheckingMode = "standard"
