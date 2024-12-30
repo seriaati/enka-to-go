@@ -184,7 +184,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "enka-api", specifier = ">=2.4.0" },
-    { name = "flet", specifier = ">=0.25.0.dev3753" },
+    { name = "flet", specifier = ">=0.25.2" },
 ]
 
 [[package]]

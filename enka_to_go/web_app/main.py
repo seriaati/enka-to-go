@@ -18,7 +18,7 @@ class EnkaToGOWebApp:
         self.result_json = ft.Ref[ft.TextField]()
 
     async def _on_submit(self, _: ft.ControlEvent) -> None:
-        await self.page.show_snack_bar_async(
+        self.page.open(
             ft.SnackBar(
                 ft.Row(
                     [
@@ -37,7 +37,7 @@ class EnkaToGOWebApp:
 
         uid = self.uid_text_field.current.value
         if not uid:
-            return await self.page.show_snack_bar_async(
+            return self.page.open(
                 ft.SnackBar(
                     ft.Text("Please enter a UID.", color=ft.colors.ON_ERROR_CONTAINER),
                     bgcolor=ft.colors.ERROR_CONTAINER,
@@ -57,7 +57,7 @@ class EnkaToGOWebApp:
                 response = await client.fetch_showcase(uid)
         except Exception as e:
             logger.exception("Failed to fetch data.")
-            return await self.page.show_snack_bar_async(
+            return self.page.open(
                 ft.SnackBar(
                     ft.Text(f"Error: {e}", color=ft.colors.ON_ERROR_CONTAINER),
                     bgcolor=ft.colors.ERROR_CONTAINER,
@@ -66,7 +66,7 @@ class EnkaToGOWebApp:
                 )
             )
         if not response.characters:
-            return await self.page.show_snack_bar_async(
+            return self.page.open(
                 ft.SnackBar(
                     ft.Text(
                         "Error: No characters found in Character Showcase.",
@@ -81,7 +81,7 @@ class EnkaToGOWebApp:
             converted = EnkaToGOConverter.convert(response.characters)
         except Exception:
             logger.exception("Failed to convert data.")
-            return await self.page.show_snack_bar_async(
+            return self.page.open(
                 ft.SnackBar(
                     ft.Text(
                         "Error: Failed to convert data.",
@@ -97,7 +97,7 @@ class EnkaToGOWebApp:
         self.result_json.current.value = converted_json
         await self.result_json.current.update_async()
 
-        await self.page.show_snack_bar_async(
+        self.page.open(
             ft.SnackBar(
                 ft.Text("Complete.", color=ft.colors.ON_TERTIARY_CONTAINER),
                 bgcolor=ft.colors.TERTIARY_CONTAINER,
@@ -108,7 +108,7 @@ class EnkaToGOWebApp:
 
     async def _copy_to_clipboard(self, _: ft.ControlEvent) -> None:
         if result_json := self.result_json.current.value:
-            await self.page.show_snack_bar_async(
+            self.page.open(
                 ft.SnackBar(
                     ft.Text(
                         "Copied to clipboard.",
@@ -117,9 +117,9 @@ class EnkaToGOWebApp:
                     bgcolor=ft.colors.SECONDARY_CONTAINER,
                 )
             )
-            await self.page.set_clipboard_async(result_json)
+            self.page.set_clipboard(result_json)
         else:
-            await self.page.show_snack_bar_async(
+            self.page.open(
                 ft.SnackBar(
                     ft.Text("There is nothing to copy.", color=ft.colors.ON_ERROR_CONTAINER),
                     bgcolor=ft.colors.ERROR_CONTAINER,
@@ -129,7 +129,7 @@ class EnkaToGOWebApp:
             )
 
     async def _popup_menu_item_on_click(self, e: ft.ControlEvent) -> None:
-        await self.page.launch_url_async(e.control.data)
+        self.page.launch_url(e.control.data)
 
     async def add_controls(self) -> None:
         storage_uid = await self.storage.get_async("uid")
