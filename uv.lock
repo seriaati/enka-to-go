@@ -168,8 +168,8 @@ wheels = [
 ]
 
 [[package]]
-name = "enka-api"
-version = "2.4.2"
+name = "enka"
+version = "2.4.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiofiles" },
@@ -179,9 +179,9 @@ dependencies = [
     { name = "orjson" },
     { name = "pydantic" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/f3/dd/5d7773e6ea29d7d5d5c7eb298bc2f18e033c2105d10c9485ccae96e2b423/enka_api-2.4.2.tar.gz", hash = "sha256:ba418f6fc8eed1c589519a2ac29f594aca4e81530b96a952aa7729c262c6923e", size = 95484 }
+sdist = { url = "https://files.pythonhosted.org/packages/3b/eb/27d1a4d89d9d8788664b5e61e6cc6bf70b5832cf6aa3b7adefa7cd77e1a1/enka-2.4.3.tar.gz", hash = "sha256:dfb0b191c1fa59e38c861012e960de8dffcdd775f993ad2c9cb034134a8cd365", size = 98663 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/1b/f2/0e591a56132fca96faa08928ec070dfc4408b9ea95b2e70a5a05f9d040e4/enka_api-2.4.2-py3-none-any.whl", hash = "sha256:fec764695a29641dbcb85ff65666c68d6e677dcff48be547cb78a88a52c0889a", size = 59683 },
+    { url = "https://files.pythonhosted.org/packages/9b/87/c292e23997f6cead9c0eff6a2da8ca071fdb7573a5f864d80c117cf21340/enka-2.4.3-py3-none-any.whl", hash = "sha256:2a0ec6e4b8ea8b554501d319d2464e1a52394ab2022b967f74b9284690135b70", size = 60263 },
 ]
 
 [[package]]
@@ -189,13 +189,13 @@ name = "enka-to-go"
 version = "1.0.4"
 source = { virtual = "." }
 dependencies = [
-    { name = "enka-api" },
+    { name = "enka" },
     { name = "flet", extra = ["web"] },
 ]
 
 [package.metadata]
 requires-dist = [
-    { name = "enka-api", specifier = ">=2.4.0" },
+    { name = "enka", specifier = ">=2.4.3" },
     { name = "flet", extras = ["web"], specifier = ">=0.25.2" },
 ]
 
