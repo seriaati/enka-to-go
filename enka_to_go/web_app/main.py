@@ -95,7 +95,7 @@ class EnkaToGOWebApp:
 
         converted_json = json.dumps(converted, indent=4)
         self.result_json.current.value = converted_json
-        await self.result_json.current.update_async()
+        self.result_json.current.update()
 
         self.page.open(
             ft.SnackBar(
@@ -221,4 +221,4 @@ class EnkaToGOWebApp:
                 alignment=ft.MainAxisAlignment.CENTER,
             )
         ]
-        await self.page.update_async()
+        self.page.update()
