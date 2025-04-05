@@ -53,6 +53,7 @@ class EnkaToGOConverter:
                         "skill": talent_levels[1],
                         "burst": talent_levels[2],
                     },
+                    "constellation": character.constellations_unlocked,
                 }
             )
 
