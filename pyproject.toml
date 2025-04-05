@@ -4,10 +4,7 @@ version = "1.0.4"
 description = "Export your Enka showcase to Genshin Optimizer for damage calculation."
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = [
- "enka>=2.4.3",
- "flet[web]>=0.25.2",
-]
+dependencies = ["enka>=2.4.3", "flet[web]>=0.25.2"]
 license = { file = "LICENSE" }
 authors = [{ name = "seriaati", email = "seria.ati@gmail.com" }]
 
