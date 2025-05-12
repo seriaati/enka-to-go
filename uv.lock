@@ -152,14 +152,14 @@ wheels = [
 
 [[package]]
 name = "click"
-version = "8.1.8"
+version = "8.2.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "colorama", marker = "sys_platform == 'win32'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/b9/2e/0090cbf739cee7d23781ad4b89a9894a41538e4fcf4c31dcdd705b78eb8b/click-8.1.8.tar.gz", hash = "sha256:ed53c9d8990d83c2a27deae68e4ee337473f6330c040a31d4225c9574d16096a", size = 226593, upload-time = "2024-12-21T18:38:44.339Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/cd/0f/62ca20172d4f87d93cf89665fbaedcd560ac48b465bd1d92bfc7ea6b0a41/click-8.2.0.tar.gz", hash = "sha256:f5452aeddd9988eefa20f90f05ab66f17fce1ee2a36907fd30b05bbb5953814d", size = 235857, upload-time = "2025-05-10T22:21:03.111Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/7e/d4/7ebdbd03970677812aac39c869717059dbb71a4cfc033ca6e5221787892c/click-8.1.8-py3-none-any.whl", hash = "sha256:63c132bbbed01578a06712a2d1f497bb62d9c1c0d329b7903a866228027263b2", size = 98188, upload-time = "2024-12-21T18:38:41.666Z" },
+    { url = "https://files.pythonhosted.org/packages/a2/58/1f37bf81e3c689cc74ffa42102fa8915b59085f54a6e4a80bc6265c0f6bf/click-8.2.0-py3-none-any.whl", hash = "sha256:6b303f0b2aa85f1cb4e5303078fadcbcd4e476f114fab9b5007005711839325c", size = 102156, upload-time = "2025-05-10T22:21:01.352Z" },
 ]
 
 [[package]]
@@ -185,7 +185,7 @@ wheels = [
 
 [[package]]
 name = "enka"
-version = "2.5.1"
+version = "2.5.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiofiles" },
@@ -196,9 +196,9 @@ dependencies = [
     { name = "orjson" },
     { name = "pydantic" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/58/76/18c02280ddbd721fd7a2ba54ac14cbf4d2cfa99b5bd2fe5a309fb99a0886/enka-2.5.1.tar.gz", hash = "sha256:50fb5d2ff8fe85592092a49aab4836d12aa774e5e3b693805c3ae06970d13a4d", size = 166789, upload-time = "2025-04-23T07:38:13.558Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/23/85/e952462d3146bd092c3df08378dcb1d25c115b7be38f95701dbea2e2ad8f/enka-2.5.3.tar.gz", hash = "sha256:2d00ddb086ea5524151392dba0500976a18c496db1c47b69502b4c74d2a72589", size = 168217, upload-time = "2025-05-07T12:28:26.729Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/a7/17/b5f99491930b3624510b7fb4a0dc9cbba1958cd420d7b6f973116df13549/enka-2.5.1-py3-none-any.whl", hash = "sha256:17bd0d2953ae78495acd9b62a18c71f3d7f55713a533ffec78c41e25c6a0fbd7", size = 72769, upload-time = "2025-04-23T07:38:12.189Z" },
+    { url = "https://files.pythonhosted.org/packages/23/d4/e4220cb06711decbbcf81b603a6b85d082f833808b326d3da2ff2717ff40/enka-2.5.3-py3-none-any.whl", hash = "sha256:e8c24b41b1509775fb5f94c1d3f6ef80fb05b432ef1781c1e44c7876dc0cc3ec", size = 74011, upload-time = "2025-05-07T12:28:25.47Z" },
 ]
 
 [[package]]
@@ -232,7 +232,7 @@ wheels = [
 
 [[package]]
 name = "flet"
-version = "0.27.6"
+version = "0.28.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "httpx", marker = "platform_system != 'Pyodide'" },
@@ -240,7 +240,7 @@ dependencies = [
     { name = "repath" },
 ]
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/43/30/733bcbd546f392f2ab788b24783d1279d75b5c67437b9d5cbad29e19be9d/flet-0.27.6-py3-none-any.whl", hash = "sha256:9150ab866f4863a965556264008b0669c7da1ef9f611376937199cce6703090a", size = 541536, upload-time = "2025-03-11T22:29:16.923Z" },
+    { url = "https://files.pythonhosted.org/packages/37/ae/a05260d6f32929d14183347cca9fb6d642d4a08de7015e0afb1b674a931e/flet-0.28.2-py3-none-any.whl", hash = "sha256:599ae936863510e427b03ccc7f84d57eda712080d95e72e2086a2fa8ec5e6661", size = 462918, upload-time = "2025-05-10T22:02:07.584Z" },
 ]
 
 [package.optional-dependencies]
@@ -250,7 +250,7 @@ web = [
 
 [[package]]
 name = "flet-web"
-version = "0.27.6"
+version = "0.28.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "fastapi" },
@@ -258,7 +258,7 @@ dependencies = [
     { name = "uvicorn", extra = ["standard"] },
 ]
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/a1/49/605f72faccaccdee20b08322977e92dda4e5e032cc6ada21045b0445352d/flet_web-0.27.6-py3-none-any.whl", hash = "sha256:33f4e978b3a8269dac4b009f2868d00c1d38a3fbd816bdd898912bd2a3d782e5", size = 3048561, upload-time = "2025-03-11T22:13:41.669Z" },
+    { url = "https://files.pythonhosted.org/packages/00/77/a36708b770394b680d3b2902e420df362ea9c70652c8bf71e1ac24ce8364/flet_web-0.28.2-py3-none-any.whl", hash = "sha256:f1bfa4ee0992fd66472233ef8ac8e2dd8f80b8eaba5a4d29f0610407ebddfb71", size = 3137521, upload-time = "2025-05-10T21:49:25.393Z" },
 ]
 
 [[package]]
