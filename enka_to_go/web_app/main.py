@@ -26,12 +26,12 @@ class EnkaToGOWebApp:
                             width=16,
                             height=16,
                             stroke_width=2,
-                            color=ft.colors.ON_SECONDARY_CONTAINER,
+                            color=ft.Colors.ON_SECONDARY_CONTAINER,
                         ),
-                        ft.Text("Fetching data...", color=ft.colors.ON_SECONDARY_CONTAINER),
+                        ft.Text("Fetching data...", color=ft.Colors.ON_SECONDARY_CONTAINER),
                     ]
                 ),
-                bgcolor=ft.colors.SECONDARY_CONTAINER,
+                bgcolor=ft.Colors.SECONDARY_CONTAINER,
             )
         )
 
@@ -39,10 +39,10 @@ class EnkaToGOWebApp:
         if not uid:
             return self.page.open(
                 ft.SnackBar(
-                    ft.Text("Please enter a UID.", color=ft.colors.ON_ERROR_CONTAINER),
-                    bgcolor=ft.colors.ERROR_CONTAINER,
+                    ft.Text("Please enter a UID.", color=ft.Colors.ON_ERROR_CONTAINER),
+                    bgcolor=ft.Colors.ERROR_CONTAINER,
                     show_close_icon=True,
-                    close_icon_color=ft.colors.ON_ERROR_CONTAINER,
+                    close_icon_color=ft.Colors.ON_ERROR_CONTAINER,
                 )
             )
 
@@ -59,10 +59,10 @@ class EnkaToGOWebApp:
             logger.exception("Failed to fetch data.")
             return self.page.open(
                 ft.SnackBar(
-                    ft.Text(f"Error: {e}", color=ft.colors.ON_ERROR_CONTAINER),
-                    bgcolor=ft.colors.ERROR_CONTAINER,
+                    ft.Text(f"Error: {e}", color=ft.Colors.ON_ERROR_CONTAINER),
+                    bgcolor=ft.Colors.ERROR_CONTAINER,
                     show_close_icon=True,
-                    close_icon_color=ft.colors.ON_ERROR_CONTAINER,
+                    close_icon_color=ft.Colors.ON_ERROR_CONTAINER,
                 )
             )
         if not response.characters:
@@ -70,11 +70,11 @@ class EnkaToGOWebApp:
                 ft.SnackBar(
                     ft.Text(
                         "Error: No characters found in Character Showcase.",
-                        color=ft.colors.ON_ERROR_CONTAINER,
+                        color=ft.Colors.ON_ERROR_CONTAINER,
                     ),
-                    bgcolor=ft.colors.ERROR_CONTAINER,
+                    bgcolor=ft.Colors.ERROR_CONTAINER,
                     show_close_icon=True,
-                    close_icon_color=ft.colors.ON_ERROR_CONTAINER,
+                    close_icon_color=ft.Colors.ON_ERROR_CONTAINER,
                 )
             )
         try:
@@ -85,11 +85,11 @@ class EnkaToGOWebApp:
                 ft.SnackBar(
                     ft.Text(
                         "Error: Failed to convert data.",
-                        color=ft.colors.ON_ERROR_CONTAINER,
+                        color=ft.Colors.ON_ERROR_CONTAINER,
                     ),
-                    bgcolor=ft.colors.ERROR_CONTAINER,
+                    bgcolor=ft.Colors.ERROR_CONTAINER,
                     show_close_icon=True,
-                    close_icon_color=ft.colors.ON_ERROR_CONTAINER,
+                    close_icon_color=ft.Colors.ON_ERROR_CONTAINER,
                 )
             )
 
@@ -99,10 +99,10 @@ class EnkaToGOWebApp:
 
         self.page.open(
             ft.SnackBar(
-                ft.Text("Complete.", color=ft.colors.ON_TERTIARY_CONTAINER),
-                bgcolor=ft.colors.TERTIARY_CONTAINER,
+                ft.Text("Complete.", color=ft.Colors.ON_TERTIARY_CONTAINER),
+                bgcolor=ft.Colors.TERTIARY_CONTAINER,
                 show_close_icon=True,
-                close_icon_color=ft.colors.ON_TERTIARY_CONTAINER,
+                close_icon_color=ft.Colors.ON_TERTIARY_CONTAINER,
             )
         )
 
@@ -112,19 +112,19 @@ class EnkaToGOWebApp:
                 ft.SnackBar(
                     ft.Text(
                         "Copied to clipboard.",
-                        color=ft.colors.ON_SECONDARY_CONTAINER,
+                        color=ft.Colors.ON_SECONDARY_CONTAINER,
                     ),
-                    bgcolor=ft.colors.SECONDARY_CONTAINER,
+                    bgcolor=ft.Colors.SECONDARY_CONTAINER,
                 )
             )
             self.page.set_clipboard(result_json)
         else:
             self.page.open(
                 ft.SnackBar(
-                    ft.Text("There is nothing to copy.", color=ft.colors.ON_ERROR_CONTAINER),
-                    bgcolor=ft.colors.ERROR_CONTAINER,
+                    ft.Text("There is nothing to copy.", color=ft.Colors.ON_ERROR_CONTAINER),
+                    bgcolor=ft.Colors.ERROR_CONTAINER,
                     show_close_icon=True,
-                    close_icon_color=ft.colors.ON_ERROR_CONTAINER,
+                    close_icon_color=ft.Colors.ON_ERROR_CONTAINER,
                 )
             )
 
@@ -142,13 +142,13 @@ class EnkaToGOWebApp:
                 ft.PopupMenuButton(
                     items=[
                         ft.PopupMenuItem(
-                            icon=ft.icons.CHAT_OUTLINED,
+                            icon=ft.Icons.CHAT_OUTLINED,
                             text="Contact me on Discord",
                             data="https://discord.com/users/410036441129943050",
                             on_click=self._popup_menu_item_on_click,
                         ),
                         ft.PopupMenuItem(
-                            icon=ft.icons.CODE_OUTLINED,
+                            icon=ft.Icons.CODE_OUTLINED,
                             text="Source code",
                             data="https://github.com/seriaati/enka-to-go",
                             on_click=self._popup_menu_item_on_click,
@@ -187,17 +187,17 @@ class EnkaToGOWebApp:
                             [
                                 ft.FilledTonalButton(
                                     text="Copy to clipboard",
-                                    icon=ft.icons.CONTENT_COPY_OUTLINED,
+                                    icon=ft.Icons.CONTENT_COPY_OUTLINED,
                                     on_click=self._copy_to_clipboard,
                                 ),
                                 ft.OutlinedButton(
                                     text="Enka Network",
-                                    icon=ft.icons.OPEN_IN_NEW_OUTLINED,
+                                    icon=ft.Icons.OPEN_IN_NEW_OUTLINED,
                                     url="https://enka.network/",
                                 ),
                                 ft.OutlinedButton(
                                     text="Genshin Optimizer",
-                                    icon=ft.icons.OPEN_IN_NEW_OUTLINED,
+                                    icon=ft.Icons.OPEN_IN_NEW_OUTLINED,
                                     url="https://frzyc.github.io/genshin-optimizer/#/setting",
                                 ),
                             ],
