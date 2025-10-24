@@ -221,7 +221,7 @@ wheels = [
 [[package]]
 name = "enka"
 version = "2.5.13"
-source = { registry = "https://pypi.org/simple" }
+source = { git = "https://github.com/seriaati/enka-py#1d11b657fb97a42a3cf9a2972c088d58b65b2a65" }
 dependencies = [
     { name = "aiofiles" },
     { name = "aiohttp" },
@@ -229,10 +229,6 @@ dependencies = [
     { name = "loguru" },
     { name = "orjson" },
     { name = "pydantic" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/fb/03/0e442e63d75c08eebdf21bd91f9a67881f8f12c12226131db55cedb9ab0e/enka-2.5.13.tar.gz", hash = "sha256:3bc6674baba6f55dffec214e0a5f79c2c13c889557c4eea8c06b3f001733c9a0", size = 59090, upload-time = "2025-10-17T03:22:16.766Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/cf/31/f2ea43aa1aea38c4262c33d1443cf3d40328a99ea6d531b8f13cb14d7c26/enka-2.5.13-py3-none-any.whl", hash = "sha256:f177009c5fbd2755722a916da9de4ef126d416e40b438011e934aab826c4eec6", size = 68768, upload-time = "2025-10-17T03:22:15.6Z" },
 ]
 
 [[package]]
@@ -246,7 +242,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "enka", specifier = ">=2.4.3" },
+    { name = "enka", git = "https://github.com/seriaati/enka-py" },
     { name = "flet", extras = ["web"], specifier = ">=0.25.2" },
 ]
 

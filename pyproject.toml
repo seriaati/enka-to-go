@@ -10,3 +10,6 @@ authors = [{ name = "seriaati", email = "seria.ati@gmail.com" }]
 
 [tool.pyright]
 typeCheckingMode = "standard"
+
+[tool.uv.sources]
+enka = { git = "https://github.com/seriaati/enka-py" }
