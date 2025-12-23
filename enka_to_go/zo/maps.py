@@ -67,7 +67,7 @@ ZO_STAT_KEY_MAP: dict[StatType, str] = {
 # Derived from text_map.json (EquipmentSuit_{id}_name)
 ZO_SETS_MAP: dict[int, str] = {
     33400: "MoonlightLullaby",
-    32700: "Branch&BladeSong", # Verify spaces handling for special chars? Sample had CamelCase. "Branch & Blade Song" -> "Branch&BladeSong" or "BranchAndBladeSong"? Safe guess: remove spaces.
+    32700: "Branch&BladeSong",
     31900: "ProtoPunk",
     32900: "ShadowHarmony",
     32300: "ChaoticMetal",
@@ -76,12 +76,12 @@ ZO_SETS_MAP: dict[int, str] = {
     31100: "PufferElectro",
     32400: "ThunderMetal",
     32800: "AstralVoice",
-    33000: "Phaethon'sMelody", # Handle apostrophe? Sample didn't have apostrophe sets. I'll remove space only for now.
+    33000: "Phaethon'sMelody",
     33200: "KingoftheSummit",
     31800: "ChaosJazz",
     33100: "YunkuiTales",
     32500: "PolarMetal",
-    33300: "Dawn'sBloom", # Apostrophe?
+    33300: "Dawn'sBloom",
     31300: "FreedomBlues",
     31200: "ShockstarDisco",
     32200: "InfernoMetal",
