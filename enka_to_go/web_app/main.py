@@ -5,6 +5,7 @@ import flet as ft
 from loguru import logger
 
 from ..go.converter import EnkaToGOConverter
+from ..zo.converter import EnkaToZOConverter
 
 
 class EnkaToGOWebApp:
@@ -14,7 +15,9 @@ class EnkaToGOWebApp:
         self.storage = self.page.client_storage
 
         # control refs
+        # control refs
         self.uid_text_field = ft.Ref[ft.TextField]()
+        self.game_selector = ft.Ref[ft.Dropdown]()
         self.result_json = ft.Ref[ft.TextField]()
 
     async def _on_submit(self, _: ft.ControlEvent) -> None:
@@ -52,9 +55,18 @@ class EnkaToGOWebApp:
             await self.storage.set_async("uid", uid)
 
         # fetch and convert data
+        game = self.game_selector.current.value
         try:
-            async with enka.GenshinClient() as client:
-                response = await client.fetch_showcase(uid)
+            if game == "Genshin Impact":
+                async with enka.GenshinClient() as client:
+                    response = await client.fetch_showcase(uid)
+                    data_to_convert = response.characters
+                    converter_cls = EnkaToGOConverter
+            else:  # Zenless Zone Zero
+                async with enka.ZZZClient() as client:
+                    response = await client.fetch_showcase(uid)
+                    data_to_convert = response.agents
+                    converter_cls = EnkaToZOConverter
         except Exception as e:
             logger.exception("Failed to fetch data.")
             return self.page.open(
@@ -65,11 +77,11 @@ class EnkaToGOWebApp:
                     close_icon_color=ft.Colors.ON_ERROR_CONTAINER,
                 )
             )
-        if not response.characters:
+        if not data_to_convert:
             return self.page.open(
                 ft.SnackBar(
                     ft.Text(
-                        "Error: No characters found in Character Showcase.",
+                        "Error: No characters/agents found in Showcase.",
                         color=ft.Colors.ON_ERROR_CONTAINER,
                     ),
                     bgcolor=ft.Colors.ERROR_CONTAINER,
@@ -78,7 +90,7 @@ class EnkaToGOWebApp:
                 )
             )
         try:
-            converted = EnkaToGOConverter.convert(response.characters)
+            converted = converter_cls.convert(data_to_convert)
         except Exception:
             logger.exception("Failed to convert data.")
             return self.page.open(
@@ -165,6 +177,19 @@ class EnkaToGOWebApp:
                         ft.Row(
                             [
                                 ft.Container(
+                                    ft.Dropdown(
+                                        ref=self.game_selector,
+                                        width=200,
+                                        label="Game",
+                                        options=[
+                                            ft.dropdown.Option("Genshin Impact"),
+                                            ft.dropdown.Option("Zenless Zone Zero"),
+                                        ],
+                                        value="Genshin Impact",
+                                    ),
+                                    margin=ft.margin.only(right=16),
+                                ),
+                                ft.Container(
                                     ft.TextField(
                                         ref=self.uid_text_field,
                                         label="UID",
@@ -199,6 +224,11 @@ class EnkaToGOWebApp:
                                     text="Genshin Optimizer",
                                     icon=ft.Icons.OPEN_IN_NEW_OUTLINED,
                                     url="https://frzyc.github.io/genshin-optimizer/#/setting",
+                                ),
+                                ft.OutlinedButton(
+                                    text="Zenless Optimizer",
+                                    icon=ft.Icons.OPEN_IN_NEW_OUTLINED,
+                                    url="https://frzyc.github.io/zenless-optimizer/#/",
                                 ),
                             ],
                             spacing=16,
