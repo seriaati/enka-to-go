@@ -14,7 +14,7 @@ ZO_SLOT_MAP: dict[int, str] = {
 ZO_STAT_KEY_MAP: dict[StatType, str] = {
     StatType.HP_FLAT: "hp",
     StatType.HP_PERCENT: "hp_",
-    StatType.HP_BASE: "hp", # Optimization: Base for main stats usually
+    StatType.HP_BASE: "hp",
 
     StatType.ATK_FLAT: "atk",
     StatType.ATK_PERCENT: "atk_",
@@ -32,20 +32,23 @@ ZO_STAT_KEY_MAP: dict[StatType, str] = {
 
     StatType.PEN_FLAT: "pen",
     StatType.PEN_BASE: "pen",
-    # PEN_RATIO (Percent?)
-    StatType.PEN_RATIO_FLAT: "pen_", # Guessing pen_ for ratio/percent
+
+    StatType.PEN_RATIO_FLAT: "pen_",
     StatType.PEN_RATIO_BASE: "pen_",
 
     StatType.ANOMALY_PRO_FLAT: "anomProf",
     StatType.ANOMALY_PRO_BASE: "anomProf",
 
-    StatType.ANOMALY_MASTERY_FLAT: "anomMas", # Verify this key
+    StatType.ANOMALY_MASTERY_FLAT: "anomMas",
     StatType.ANOMALY_MASTERY_PERCENT: "anomMas_",
     StatType.ANOMALY_MASTERY_BASE: "anomMas",
 
     StatType.ENERGY_REGEN_FLAT: "enerRegen",
     StatType.ENERGY_REGEN_PERCENT: "enerRegen_",
     StatType.ENERGY_REGEN_BASE: "enerRegen",
+
+    StatType.IMPACT_PERCENT: "impact_",
+    StatType.IMPACT_BASE: "impact",
 
     StatType.PHYSICAL_DMG_BONUS_FLAT: "physical_dmg_",
     StatType.PHYSICAL_DMG_BONUS_BASE: "physical_dmg_",
