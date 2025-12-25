@@ -7,12 +7,14 @@ from enka.zzz import ZZZClient
 from .maps import ZO_SETS_MAP
 
 
+import string
+
 def _format_name(name: str) -> str:
     """
     Format the set name to match the expected format (e.g. "Moonlight Lullaby" -> "MoonlightLullaby").
     Removes spaces and non-alphanumeric characters.
     """
-    return re.sub(r'[^a-zA-Z0-9]', '', name)
+    return re.sub(r'[^a-zA-Z0-9]', '', string.capwords(name))
 
 
 async def load_data() -> None:
