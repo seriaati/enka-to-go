@@ -68,30 +68,7 @@ ZO_STAT_KEY_MAP: dict[StatType, str] = {
 }
 
 # Derived from text_map.json (EquipmentSuit_{id}_name)
-ZO_SETS_MAP: dict[int, str] = {
-    33400: "MoonlightLullaby",
-    32700: "BranchBladeSong",
-    31900: "ProtoPunk",
-    32900: "ShadowHarmony",
-    32300: "ChaoticMetal",
-    32600: "FangedMetal",
-    31000: "WoodpeckerElectro",
-    31100: "PufferElectro",
-    32400: "ThunderMetal",
-    32800: "AstralVoice",
-    33000: "PhaethonsMelody",
-    33200: "KingoftheSummit",
-    31800: "ChaosJazz",
-    33100: "YunkuiTales",
-    32500: "PolarMetal",
-    33300: "DawnsBloom",
-    31300: "FreedomBlues",
-    31200: "ShockstarDisco",
-    32200: "InfernoMetal",
-    31600: "SwingJazz",
-    31500: "SoulRock",
-    31400: "HormonePunk"
-}
+ZO_SETS_MAP: dict[int, str] = {}
 
 from enka.zzz import SkillType
 ZO_SKILL_MAP: dict[SkillType, str] = {
