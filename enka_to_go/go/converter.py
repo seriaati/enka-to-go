@@ -38,14 +38,14 @@ class EnkaToGOConverter:
         for character in characters:
             # character
             if character.id in {10000005, 10000007}:  # Traveler
-                character_name = f"{character.name} {character.element.name.title()}"
+                character_name = "Traveler"
             else:
                 character_name = character.name
 
             talent_levels = cls._get_talent_levels(character.talents, character.talent_order)
             base["characters"].append(
                 {
-                    "key": cls._format_key(character_name),
+                    "key": cls._format_key(f"{character_name} {character.element.name.title()}" if character_name == "Traveler" else character_name),
                     "level": character.level,
                     "ascension": character.ascension,
                     "talent": {
@@ -58,7 +58,10 @@ class EnkaToGOConverter:
             )
 
             # resset character name because GO uses Traveler for location, not TravelerDendro or TravelerAnemo
-            character_name = character.name
+            if character.id in {10000005, 10000007}:  # Traveler
+                character_name = "Traveler"
+            else:
+                character_name = character.name
 
             # weapon
             weapon = character.weapon
