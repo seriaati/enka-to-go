@@ -15,7 +15,6 @@ class EnkaToGOWebApp:
         self.storage = self.page.client_storage
 
         # control refs
-        # control refs
         self.uid_text_field = ft.Ref[ft.TextField]()
         self.game_selector = ft.Ref[ft.Dropdown]()
         self.result_json = ft.Ref[ft.TextField]()
@@ -181,7 +180,7 @@ class EnkaToGOWebApp:
                                 ft.Container(
                                     ft.Dropdown(
                                         ref=self.game_selector,
-                                        width=200,
+                                        width=230,
                                         label="Game",
                                         options=[
                                             ft.dropdown.Option("Genshin Impact"),
@@ -230,7 +229,7 @@ class EnkaToGOWebApp:
                                 ft.OutlinedButton(
                                     text="Zenless Optimizer",
                                     icon=ft.Icons.OPEN_IN_NEW_OUTLINED,
-                                    url="https://frzyc.github.io/zenless-optimizer/#/",
+                                    url="https://frzyc.github.io/zenless-optimizer/#/setting",
                                 ),
                             ],
                             spacing=16,
