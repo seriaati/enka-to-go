@@ -38,15 +38,17 @@ class EnkaToZOConverter:
                 we_id = f"enka_wengine_{we.id}"
                 equipped_wengine = we_id
 
-                base["wengines"].append({
-                    "key": cls._format_key(we.name),
-                    "level": we.level,
-                    "modification": we.modification,
-                    "phase": we.phase,
-                    "location": char_key,
-                    "lock": we.is_locked,
-                    "id": we_id,
-                })
+                base["wengines"].append(
+                    {
+                        "key": cls._format_key(we.name),
+                        "level": we.level,
+                        "modification": we.modification,
+                        "phase": we.phase,
+                        "location": char_key,
+                        "lock": we.is_locked,
+                        "id": we_id,
+                    }
+                )
 
             # Discs
             for disc in agent.discs:
@@ -60,23 +62,29 @@ class EnkaToZOConverter:
                 # Substats
                 substats = []
                 for ss in disc.sub_stats:
-                    substats.append({
-                        "key": ZO_STAT_KEY_MAP.get(ss.type, f"Unknown_{ss.type.name}"),
-                        "upgrades": ss.roll_times,
-                    })
+                    substats.append(
+                        {
+                            "key": ZO_STAT_KEY_MAP.get(ss.type, f"Unknown_{ss.type.name}"),
+                            "upgrades": ss.roll_times,
+                        }
+                    )
 
-                base["discs"].append({
-                    "setKey": set_key,
-                    "rarity": disc.rarity,
-                    "level": disc.level,
-                    "slotKey": slot_key,
-                    "mainStatKey": ZO_STAT_KEY_MAP.get(disc.main_stat.type, f"Unknown_{disc.main_stat.type.name}"),
-                    "substats": substats,
-                    "location": char_key,
-                    "lock": disc.is_locked,
-                    "trash": disc.is_trash,
-                    "id": disc_id,
-                })
+                base["discs"].append(
+                    {
+                        "setKey": set_key,
+                        "rarity": disc.rarity,
+                        "level": disc.level,
+                        "slotKey": slot_key,
+                        "mainStatKey": ZO_STAT_KEY_MAP.get(
+                            disc.main_stat.type, f"Unknown_{disc.main_stat.type.name}"
+                        ),
+                        "substats": substats,
+                        "location": char_key,
+                        "lock": disc.is_locked,
+                        "trash": disc.is_trash,
+                        "id": disc_id,
+                    }
+                )
 
             # Skills
             skills_map = {}
@@ -88,25 +96,27 @@ class EnkaToZOConverter:
 
             # Fill defaults 1 if missing
             for k in ["dodge", "basic", "chain", "special", "assist"]:
-                 if k not in skills_map:
-                     skills_map[k] = 1
+                if k not in skills_map:
+                    skills_map[k] = 1
             # Core
             core_val = skills_map.get("core", 1)
 
-            base["characters"].append({
-                "key": char_key,
-                "level": agent.level,
-                "promotion": agent.promotion,
-                "mindscape": agent.mindscape,
-                "core": core_val,
-                "dodge": skills_map["dodge"],
-                "basic": skills_map["basic"],
-                "chain": skills_map["chain"],
-                "special": skills_map["special"],
-                "assist": skills_map["assist"],
-                "id": char_key,
-                "equippedDiscs": equipped_discs,
-                "equippedWengine": equipped_wengine,
-            })
+            base["characters"].append(
+                {
+                    "key": char_key,
+                    "level": agent.level,
+                    "promotion": agent.promotion,
+                    "mindscape": agent.mindscape,
+                    "core": core_val,
+                    "dodge": skills_map["dodge"],
+                    "basic": skills_map["basic"],
+                    "chain": skills_map["chain"],
+                    "special": skills_map["special"],
+                    "assist": skills_map["assist"],
+                    "id": char_key,
+                    "equippedDiscs": equipped_discs,
+                    "equippedWengine": equipped_wengine,
+                }
+            )
 
         return base
