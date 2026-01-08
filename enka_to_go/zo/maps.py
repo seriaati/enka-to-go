@@ -1,16 +1,5 @@
 from enka.zzz import SkillType, StatType
 
-# Mapping from ZZZ Equipment Slot (1-6) to JSON keys (1-6)
-# Simple string conversion is enough, but explicit is good.
-ZO_SLOT_MAP: dict[int, str] = {
-    1: "1",
-    2: "2",
-    3: "3",
-    4: "4",
-    5: "5",
-    6: "6",
-}
-
 ZO_STAT_KEY_MAP: dict[StatType, str] = {
     StatType.HP_FLAT: "hp",
     StatType.HP_PERCENT: "hp_",
@@ -50,10 +39,6 @@ ZO_STAT_KEY_MAP: dict[StatType, str] = {
     StatType.ETHER_DMG_BONUS_FLAT: "ether_dmg_",
     StatType.ETHER_DMG_BONUS_BASE: "ether_dmg_",
 }
-
-# Derived from text_map.json (EquipmentSuit_{id}_name)
-ZO_SETS_MAP: dict[int, str] = {}
-
 
 ZO_SKILL_MAP: dict[SkillType, str] = {
     SkillType.BASIC_ATK: "basic",
