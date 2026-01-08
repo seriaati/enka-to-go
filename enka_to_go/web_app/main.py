@@ -5,6 +5,7 @@ import flet as ft
 from loguru import logger
 
 from ..go.converter import EnkaToGOConverter
+from ..zo.converter import EnkaToZOConverter
 
 
 class EnkaToGOWebApp:
@@ -15,6 +16,7 @@ class EnkaToGOWebApp:
 
         # control refs
         self.uid_text_field = ft.Ref[ft.TextField]()
+        self.game_selector = ft.Ref[ft.Dropdown]()
         self.result_json = ft.Ref[ft.TextField]()
 
     async def _on_submit(self, _: ft.ControlEvent) -> None:
@@ -46,15 +48,27 @@ class EnkaToGOWebApp:
                 )
             )
 
+        # save game to storage
+        await self.storage.set_async("game", self.game_selector.current.value)
+
         # save uid to storage
         storage_uid = await self.storage.get_async("uid")
         if storage_uid != uid:
             await self.storage.set_async("uid", uid)
 
         # fetch and convert data
+        game = self.game_selector.current.value
         try:
-            async with enka.GenshinClient() as client:
-                response = await client.fetch_showcase(uid)
+            if game == "Genshin Impact":
+                async with enka.GenshinClient() as client:
+                    response = await client.fetch_showcase(uid)
+                    data_to_convert = response.characters
+                    converter_cls = EnkaToGOConverter
+            else:  # Zenless Zone Zero
+                async with enka.ZZZClient() as client:
+                    response = await client.fetch_showcase(uid)
+                    data_to_convert = response.agents
+                    converter_cls = EnkaToZOConverter
         except Exception as e:
             logger.exception("Failed to fetch data.")
             return self.page.open(
@@ -65,11 +79,12 @@ class EnkaToGOWebApp:
                     close_icon_color=ft.Colors.ON_ERROR_CONTAINER,
                 )
             )
-        if not response.characters:
+
+        if not data_to_convert:
             return self.page.open(
                 ft.SnackBar(
                     ft.Text(
-                        "Error: No characters found in Character Showcase.",
+                        "Error: No characters/agents found in Showcase.",
                         color=ft.Colors.ON_ERROR_CONTAINER,
                     ),
                     bgcolor=ft.Colors.ERROR_CONTAINER,
@@ -77,8 +92,9 @@ class EnkaToGOWebApp:
                     close_icon_color=ft.Colors.ON_ERROR_CONTAINER,
                 )
             )
+
         try:
-            converted = EnkaToGOConverter.convert(response.characters)
+            converted = converter_cls.convert(data_to_convert)  # pyright: ignore[reportArgumentType]
         except Exception:
             logger.exception("Failed to convert data.")
             return self.page.open(
@@ -132,10 +148,13 @@ class EnkaToGOWebApp:
         self.page.launch_url(e.control.data)
 
     async def add_controls(self) -> None:
+        storage_game = await self.storage.get_async("game")
         storage_uid = await self.storage.get_async("uid")
+
         self.page.appbar = ft.AppBar(
+            bgcolor=ft.Colors.PRIMARY_CONTAINER,
             title=ft.Container(
-                ft.Text("Enka to GO", size=20),
+                ft.Text("Enka to GO", size=20, color=ft.Colors.ON_PRIMARY_CONTAINER),
                 margin=ft.margin.symmetric(vertical=10),
             ),
             actions=[
@@ -164,6 +183,19 @@ class EnkaToGOWebApp:
                     ft.Container(
                         ft.Row(
                             [
+                                ft.Container(
+                                    ft.Dropdown(
+                                        ref=self.game_selector,
+                                        width=230,
+                                        label="Game",
+                                        options=[
+                                            ft.dropdown.Option("Genshin Impact"),
+                                            ft.dropdown.Option("Zenless Zone Zero"),
+                                        ],
+                                        value=storage_game or "Genshin Impact",
+                                    ),
+                                    margin=ft.margin.only(right=16),
+                                ),
                                 ft.Container(
                                     ft.TextField(
                                         ref=self.uid_text_field,
@@ -199,6 +231,11 @@ class EnkaToGOWebApp:
                                     text="Genshin Optimizer",
                                     icon=ft.Icons.OPEN_IN_NEW_OUTLINED,
                                     url="https://frzyc.github.io/genshin-optimizer/#/setting",
+                                ),
+                                ft.OutlinedButton(
+                                    text="Zenless Optimizer",
+                                    icon=ft.Icons.OPEN_IN_NEW_OUTLINED,
+                                    url="https://frzyc.github.io/zenless-optimizer/#/setting",
                                 ),
                             ],
                             spacing=16,
