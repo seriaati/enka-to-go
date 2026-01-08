@@ -46,12 +46,12 @@ class EnkaToGOConverter:
             if is_traveler(character.id):
                 character_name = f"Traveler{character.element.name.title()}"
             else:
-                character_name = character.name
+                character_name = cls._format_key(character.name)
 
             talent_levels = cls._get_talent_levels(character.talents, character.talent_order)
             base["characters"].append(
                 {
-                    "key": cls._format_key(character_name),
+                    "key": character_name,
                     "level": character.level,
                     "ascension": character.ascension,
                     "talent": {
