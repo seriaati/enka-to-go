@@ -2,10 +2,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
-from .maps import ZO_SLOT_MAP, ZO_STAT_KEY_MAP, ZO_SETS_MAP, ZO_SKILL_MAP
+from .maps import ZO_SETS_MAP, ZO_SKILL_MAP, ZO_SLOT_MAP, ZO_STAT_KEY_MAP
 
 if TYPE_CHECKING:
-    from enka.zzz import Agent, DriveDisc, WEngine
+    from enka.zzz import Agent
 
 
 class EnkaToZOConverter:
