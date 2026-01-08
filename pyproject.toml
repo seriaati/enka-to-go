@@ -1,6 +1,6 @@
 [project]
 name = "enka-to-go"
-version = "1.0.4"
+version = "1.0.5"
 description = "Export your Enka showcase to Genshin Optimizer for damage calculation."
 readme = "README.md"
 requires-python = ">=3.11"
