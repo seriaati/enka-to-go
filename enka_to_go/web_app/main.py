@@ -48,6 +48,9 @@ class EnkaToGOWebApp:
                 )
             )
 
+        # save game to storage
+        await self.storage.set_async("game", self.game_selector.current.value)
+
         # save uid to storage
         storage_uid = await self.storage.get_async("uid")
         if storage_uid != uid:
@@ -145,10 +148,13 @@ class EnkaToGOWebApp:
         self.page.launch_url(e.control.data)
 
     async def add_controls(self) -> None:
+        storage_game = await self.storage.get_async("game")
         storage_uid = await self.storage.get_async("uid")
+
         self.page.appbar = ft.AppBar(
+            bgcolor=ft.Colors.PRIMARY_CONTAINER,
             title=ft.Container(
-                ft.Text("Enka to GO", size=20),
+                ft.Text("Enka to GO", size=20, color=ft.Colors.ON_PRIMARY_CONTAINER),
                 margin=ft.margin.symmetric(vertical=10),
             ),
             actions=[
@@ -186,7 +192,7 @@ class EnkaToGOWebApp:
                                             ft.dropdown.Option("Genshin Impact"),
                                             ft.dropdown.Option("Zenless Zone Zero"),
                                         ],
-                                        value="Genshin Impact",
+                                        value=storage_game or "Genshin Impact",
                                     ),
                                     margin=ft.margin.only(right=16),
                                 ),
