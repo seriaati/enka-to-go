@@ -77,6 +77,7 @@ class EnkaToGOWebApp:
                     close_icon_color=ft.Colors.ON_ERROR_CONTAINER,
                 )
             )
+
         if not data_to_convert:
             return self.page.open(
                 ft.SnackBar(
@@ -89,8 +90,9 @@ class EnkaToGOWebApp:
                     close_icon_color=ft.Colors.ON_ERROR_CONTAINER,
                 )
             )
+
         try:
-            converted = converter_cls.convert(data_to_convert)
+            converted = converter_cls.convert(data_to_convert)  # pyright: ignore[reportArgumentType]
         except Exception:
             logger.exception("Failed to convert data.")
             return self.page.open(
