@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
-from .maps import ZO_SETS_MAP, ZO_SKILL_MAP, ZO_SLOT_MAP, ZO_STAT_KEY_MAP
+from .maps import ZO_SKILL_MAP, ZO_STAT_KEY_MAP
 
 if TYPE_CHECKING:
     from enka.zzz import Agent
@@ -25,6 +25,9 @@ class EnkaToZOConverter:
             "wengines": [],
         }
 
+        zod_disc_id = 0
+        zod_wengine_id = 0
+
         for agent in agents:
             # Character
             char_key = cls._format_key(agent.name)
@@ -33,41 +36,40 @@ class EnkaToZOConverter:
             equipped_wengine = ""
 
             # WEngine
-            if agent.w_engine:
-                we = agent.w_engine
-                we_id = f"enka_wengine_{we.id}"
-                equipped_wengine = we_id
+            if (wengine := agent.w_engine) is not None:
+                equipped_wengine = f"zzz_wengine_{zod_wengine_id}"
+                zod_wengine_id += 1
 
                 base["wengines"].append(
                     {
-                        "key": cls._format_key(we.name),
-                        "level": we.level,
-                        "modification": we.modification,
-                        "phase": we.phase,
+                        "key": cls._format_key(wengine.name),
+                        "level": wengine.level,
+                        "modification": wengine.modification,
+                        "phase": wengine.phase,
                         "location": char_key,
-                        "lock": we.is_locked,
-                        "id": we_id,
+                        "lock": wengine.is_locked,
+                        "id": equipped_wengine,
                     }
                 )
 
             # Discs
             for disc in agent.discs:
-                slot_key = ZO_SLOT_MAP.get(disc.slot, str(disc.slot))
-                disc_id = f"enka_disc_{disc.id}"
+                slot_key = str(disc.slot)
+                disc_id = f"zzz_disc_{zod_disc_id}"
                 equipped_discs[slot_key] = disc_id
+                zod_disc_id += 1
 
                 # Set Key
-                set_key = ZO_SETS_MAP.get(disc.set_id, f"UnknownSet_{disc.set_id}")
+                set_key = cls._format_key(disc.set_name)
 
                 # Substats
-                substats = []
-                for ss in disc.sub_stats:
-                    substats.append(
-                        {
-                            "key": ZO_STAT_KEY_MAP.get(ss.type, f"Unknown_{ss.type.name}"),
-                            "upgrades": ss.roll_times,
-                        }
-                    )
+                substats = [
+                    {
+                        "key": ZO_STAT_KEY_MAP.get(ss.type, f"Unknown_{ss.type.name}"),
+                        "upgrades": ss.roll_times,
+                    }
+                    for ss in disc.sub_stats
+                ]
 
                 base["discs"].append(
                     {
@@ -87,19 +89,11 @@ class EnkaToZOConverter:
                 )
 
             # Skills
-            skills_map = {}
-            if agent.skills:
-                for skill in agent.skills:
-                    s_key = ZO_SKILL_MAP.get(skill.type)
-                    if s_key:
-                        skills_map[s_key] = skill.level
-
-            # Fill defaults 1 if missing
-            for k in ["dodge", "basic", "chain", "special", "assist"]:
-                if k not in skills_map:
-                    skills_map[k] = 1
-            # Core
-            core_val = skills_map.get("core", 1)
+            skills_map = dict.fromkeys(ZO_SKILL_MAP.values(), 1)
+            for skill in agent.skills:
+                s_key = ZO_SKILL_MAP.get(skill.type)
+                if s_key:
+                    skills_map[s_key] = skill.level
 
             base["characters"].append(
                 {
@@ -107,7 +101,7 @@ class EnkaToZOConverter:
                     "level": agent.level,
                     "promotion": agent.promotion,
                     "mindscape": agent.mindscape,
-                    "core": core_val,
+                    "core": skills_map["core"],
                     "dodge": skills_map["dodge"],
                     "basic": skills_map["basic"],
                     "chain": skills_map["chain"],
