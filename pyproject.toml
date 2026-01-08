@@ -9,7 +9,17 @@ license = { file = "LICENSE" }
 authors = [{ name = "seriaati", email = "seria.ati@gmail.com" }]
 
 [tool.pyright]
+enableTypeIgnoreComments = false
+reportIncompatibleMethodOverride = false
+reportIncompatibleVariableOverride = false
+reportUnnecessaryComparison = true
+reportUnnecessaryContains = true
+reportUnnecessaryIsInstance = true
+reportUnnecessaryTypeIgnoreComment = true
 typeCheckingMode = "standard"
 
 [tool.uv.sources]
 enka = { git = "https://github.com/seriaati/enka-py" }
+
+[dependency-groups]
+type-check = ["pyright[nodejs]>=1.1.407"]

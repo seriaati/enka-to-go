@@ -7,6 +7,12 @@ from .maps import GO_EQUIPMENT_TYPE_MAP, GO_STAT_KEY_MAP
 if TYPE_CHECKING:
     from enka.gi import Character, Talent
 
+TRAVELER_IDS = {10000005, 10000007}
+
+
+def is_traveler(character_id: int) -> bool:
+    return character_id in TRAVELER_IDS
+
 
 class EnkaToGOConverter:
     @classmethod
@@ -37,15 +43,15 @@ class EnkaToGOConverter:
 
         for character in characters:
             # character
-            if character.id in {10000005, 10000007}:  # Traveler
-                character_name = f"{character.name} {character.element.name.title()}"
+            if is_traveler(character.id):
+                character_name = f"Traveler{character.element.name.title()}"
             else:
-                character_name = character.name
+                character_name = cls._format_key(character.name)
 
             talent_levels = cls._get_talent_levels(character.talents, character.talent_order)
             base["characters"].append(
                 {
-                    "key": cls._format_key(character_name),
+                    "key": character_name,
                     "level": character.level,
                     "ascension": character.ascension,
                     "talent": {
@@ -58,7 +64,7 @@ class EnkaToGOConverter:
             )
 
             # resset character name because GO uses Traveler for location, not TravelerDendro or TravelerAnemo
-            character_name = character.name
+            character_name = "Traveler" if is_traveler(character.id) else character.name
 
             # weapon
             weapon = character.weapon
