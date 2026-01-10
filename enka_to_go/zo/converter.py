@@ -110,6 +110,7 @@ class EnkaToZOConverter:
                     "id": char_key,
                     "equippedDiscs": equipped_discs,
                     "equippedWengine": equipped_wengine,
+                    "potential": agent.potential,
                 }
             )
 
