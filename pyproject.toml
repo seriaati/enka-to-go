@@ -5,7 +5,7 @@ description = "Export your Enka Network showcase to Genshin/Zenless Optimizer."
 readme = "README.md"
 requires-python = ">=3.11"
 authors = [{ name = "seriaati", email = "seria.ati@gmail.com" }]
-dependencies = ["enka>=2.4.3", "flet>=0.80.1"]
+dependencies = ["enka>=2.4.3", "flet[web]>=0.80.1"]
 license = { file = "LICENSE" }
 
 [dependency-groups]

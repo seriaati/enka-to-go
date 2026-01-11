@@ -362,10 +362,13 @@ version = "1.0.5"
 source = { virtual = "." }
 dependencies = [
     { name = "enka" },
-    { name = "flet", extra = ["all"] },
+    { name = "flet", extra = ["web"] },
 ]
 
 [package.dev-dependencies]
+dev = [
+    { name = "flet", extra = ["all"] },
+]
 type-check = [
     { name = "pyright", extra = ["nodejs"] },
 ]
@@ -373,10 +376,11 @@ type-check = [
 [package.metadata]
 requires-dist = [
     { name = "enka", git = "https://github.com/seriaati/enka-py" },
-    { name = "flet", extras = ["all"], specifier = ">=0.25.2" },
+    { name = "flet", extras = ["web"], specifier = ">=0.80.1" },
 ]
 
 [package.metadata.requires-dev]
+dev = [{ name = "flet", extras = ["all"], specifier = ">=0.80.1" }]
 type-check = [{ name = "pyright", extras = ["nodejs"], specifier = ">=1.1.407" }]
 
 [[package]]
@@ -413,6 +417,9 @@ wheels = [
 all = [
     { name = "flet-cli" },
     { name = "flet-desktop" },
+    { name = "flet-web" },
+]
+web = [
     { name = "flet-web" },
 ]
 
