@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 class EnkaToZOConverter:
     @classmethod
     def _format_key(cls, key: str) -> str:
-        return key.replace("'", "").replace('"', "").replace("-", " ").title().replace(" ", "")
+        return key.replace("'", "").replace('"', "").replace("-", " ").replace("&", "").title().replace(" ", "")
 
     @classmethod
     def convert(cls, agents: list[Agent]) -> dict[str, Any]:
