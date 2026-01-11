@@ -4,23 +4,22 @@ import enka
 import flet as ft
 from loguru import logger
 
-from ..go.converter import EnkaToGOConverter
-from ..zo.converter import EnkaToZOConverter
+from src.app.go.converter import EnkaToGOConverter
+from src.app.zo.converter import EnkaToZOConverter
 
 
 class EnkaToGOWebApp:
     def __init__(self, page: ft.Page) -> None:
         self.page = page
-        assert self.page.client_storage
-        self.storage = self.page.client_storage
+        self.storage = ft.SharedPreferences()
 
         # control refs
         self.uid_text_field = ft.Ref[ft.TextField]()
         self.game_selector = ft.Ref[ft.Dropdown]()
         self.result_json = ft.Ref[ft.TextField]()
 
-    async def _on_submit(self, _: ft.ControlEvent) -> None:
-        self.page.open(
+    async def _on_submit(self, _: ft.Event) -> None:
+        self.page.show_dialog(
             ft.SnackBar(
                 ft.Row(
                     [
@@ -39,7 +38,7 @@ class EnkaToGOWebApp:
 
         uid = self.uid_text_field.current.value
         if not uid:
-            return self.page.open(
+            return self.page.show_dialog(
                 ft.SnackBar(
                     ft.Text("Please enter a UID.", color=ft.Colors.ON_ERROR_CONTAINER),
                     bgcolor=ft.Colors.ERROR_CONTAINER,
@@ -49,12 +48,12 @@ class EnkaToGOWebApp:
             )
 
         # save game to storage
-        await self.storage.set_async("game", self.game_selector.current.value)
+        await self.storage.set("game", self.game_selector.current.value)
 
         # save uid to storage
-        storage_uid = await self.storage.get_async("uid")
+        storage_uid = await self.storage.get("uid")
         if storage_uid != uid:
-            await self.storage.set_async("uid", uid)
+            await self.storage.set("uid", uid)
 
         # fetch and convert data
         game = self.game_selector.current.value
@@ -69,9 +68,19 @@ class EnkaToGOWebApp:
                     response = await client.fetch_showcase(uid)
                     data_to_convert = response.agents
                     converter_cls = EnkaToZOConverter
+        except enka.errors.EnkaAPIError as e:
+            logger.error(f"Enka API error: {e}")
+            return self.page.show_dialog(
+                ft.SnackBar(
+                    ft.Text(f"Enka API error: {e}", color=ft.Colors.ON_ERROR_CONTAINER),
+                    bgcolor=ft.Colors.ERROR_CONTAINER,
+                    show_close_icon=True,
+                    close_icon_color=ft.Colors.ON_ERROR_CONTAINER,
+                )
+            )
         except Exception as e:
             logger.exception("Failed to fetch data.")
-            return self.page.open(
+            return self.page.show_dialog(
                 ft.SnackBar(
                     ft.Text(f"Error: {e}", color=ft.Colors.ON_ERROR_CONTAINER),
                     bgcolor=ft.Colors.ERROR_CONTAINER,
@@ -81,7 +90,7 @@ class EnkaToGOWebApp:
             )
 
         if not data_to_convert:
-            return self.page.open(
+            return self.page.show_dialog(
                 ft.SnackBar(
                     ft.Text(
                         "Error: No characters/agents found in Showcase.",
@@ -97,7 +106,7 @@ class EnkaToGOWebApp:
             converted = converter_cls.convert(data_to_convert)  # pyright: ignore[reportArgumentType]
         except Exception:
             logger.exception("Failed to convert data.")
-            return self.page.open(
+            return self.page.show_dialog(
                 ft.SnackBar(
                     ft.Text(
                         "Error: Failed to convert data.",
@@ -113,7 +122,7 @@ class EnkaToGOWebApp:
         self.result_json.current.value = converted_json
         self.result_json.current.update()
 
-        self.page.open(
+        self.page.show_dialog(
             ft.SnackBar(
                 ft.Text("Complete.", color=ft.Colors.ON_TERTIARY_CONTAINER),
                 bgcolor=ft.Colors.TERTIARY_CONTAINER,
@@ -122,9 +131,9 @@ class EnkaToGOWebApp:
             )
         )
 
-    async def _copy_to_clipboard(self, _: ft.ControlEvent) -> None:
+    async def _copy_to_clipboard(self, _: ft.Event) -> None:
         if result_json := self.result_json.current.value:
-            self.page.open(
+            self.page.show_dialog(
                 ft.SnackBar(
                     ft.Text(
                         "Copied to clipboard.",
@@ -133,9 +142,9 @@ class EnkaToGOWebApp:
                     bgcolor=ft.Colors.SECONDARY_CONTAINER,
                 )
             )
-            self.page.set_clipboard(result_json)
+            await ft.Clipboard().set(result_json)
         else:
-            self.page.open(
+            self.page.show_dialog(
                 ft.SnackBar(
                     ft.Text("There is nothing to copy.", color=ft.Colors.ON_ERROR_CONTAINER),
                     bgcolor=ft.Colors.ERROR_CONTAINER,
@@ -144,31 +153,31 @@ class EnkaToGOWebApp:
                 )
             )
 
-    async def _popup_menu_item_on_click(self, e: ft.ControlEvent) -> None:
-        self.page.launch_url(e.control.data)
+    async def _popup_menu_item_on_click(self, e: ft.Event) -> None:
+        await self.page.launch_url(e.control.data)
 
     async def add_controls(self) -> None:
-        storage_game = await self.storage.get_async("game")
-        storage_uid = await self.storage.get_async("uid")
+        storage_game = await self.storage.get("game")
+        storage_uid = await self.storage.get("uid")
 
         self.page.appbar = ft.AppBar(
             bgcolor=ft.Colors.PRIMARY_CONTAINER,
             title=ft.Container(
                 ft.Text("Enka to GO", size=20, color=ft.Colors.ON_PRIMARY_CONTAINER),
-                margin=ft.margin.symmetric(vertical=10),
+                margin=ft.Margin.symmetric(vertical=10),
             ),
             actions=[
                 ft.PopupMenuButton(
                     items=[
                         ft.PopupMenuItem(
                             icon=ft.Icons.CHAT_OUTLINED,
-                            text="Contact me on Discord",
+                            content="Contact me on Discord",
                             data="https://discord.com/users/410036441129943050",
                             on_click=self._popup_menu_item_on_click,
                         ),
                         ft.PopupMenuItem(
                             icon=ft.Icons.CODE_OUTLINED,
-                            text="Source code",
+                            content="Source code",
                             data="https://github.com/seriaati/enka-to-go",
                             on_click=self._popup_menu_item_on_click,
                         ),
@@ -181,12 +190,11 @@ class EnkaToGOWebApp:
             ft.Column(
                 [
                     ft.Container(
-                        ft.Row(
+                        ft.Column(
                             [
                                 ft.Container(
                                     ft.Dropdown(
                                         ref=self.game_selector,
-                                        width=230,
                                         label="Game",
                                         options=[
                                             ft.dropdown.Option("Genshin Impact"),
@@ -194,7 +202,6 @@ class EnkaToGOWebApp:
                                         ],
                                         value=storage_game or "Genshin Impact",
                                     ),
-                                    margin=ft.margin.only(right=16),
                                 ),
                                 ft.Container(
                                     ft.TextField(
@@ -205,57 +212,58 @@ class EnkaToGOWebApp:
                                         value=storage_uid,
                                         on_submit=self._on_submit,
                                     ),
-                                    margin=ft.margin.only(right=16),
                                 ),
                                 ft.FilledButton("Submit", on_click=self._on_submit),
                             ],
-                            vertical_alignment=ft.CrossAxisAlignment.CENTER,
-                            wrap=True,
+                            spacing=16,
                         ),
-                        margin=ft.margin.only(top=16, left=16),
+                        margin=ft.Margin.only(top=16, left=16),
                     ),
                     ft.Container(
                         ft.Row(
                             [
                                 ft.FilledTonalButton(
-                                    text="Copy to clipboard",
+                                    content="Copy to clipboard",
                                     icon=ft.Icons.CONTENT_COPY_OUTLINED,
                                     on_click=self._copy_to_clipboard,
                                 ),
                                 ft.OutlinedButton(
-                                    text="Enka Network",
+                                    content="Enka Network",
                                     icon=ft.Icons.OPEN_IN_NEW_OUTLINED,
                                     url="https://enka.network/",
                                 ),
                                 ft.OutlinedButton(
-                                    text="Genshin Optimizer",
+                                    content="Genshin Optimizer",
                                     icon=ft.Icons.OPEN_IN_NEW_OUTLINED,
                                     url="https://frzyc.github.io/genshin-optimizer/#/setting",
                                 ),
                                 ft.OutlinedButton(
-                                    text="Zenless Optimizer",
+                                    content="Zenless Optimizer",
                                     icon=ft.Icons.OPEN_IN_NEW_OUTLINED,
                                     url="https://frzyc.github.io/zenless-optimizer/#/setting",
                                 ),
                             ],
                             spacing=16,
-                            run_spacing=16,
                             wrap=True,
                         ),
-                        margin=ft.margin.only(top=16, left=16, bottom=16),
+                        margin=ft.Margin.only(top=16, left=16, bottom=16),
                     ),
-                    ft.Container(
-                        ft.TextField(
-                            ref=self.result_json,
-                            label="JSON",
-                            hint_text="The GOOD JSON data will be displayed here.",
-                            multiline=True,
-                            read_only=True,
-                        ),
-                        margin=ft.margin.only(left=16),
+                    ft.Row(
+                        [
+                            ft.Container(
+                                ft.TextField(
+                                    ref=self.result_json,
+                                    label="JSON",
+                                    hint_text="The GOOD/ZOD JSON will be displayed here.",
+                                    multiline=True,
+                                    read_only=True,
+                                ),
+                                margin=ft.Margin.only(left=16),
+                                expand=True,
+                            )
+                        ]
                     ),
                 ],
-                alignment=ft.MainAxisAlignment.CENTER,
             )
         ]
         self.page.update()

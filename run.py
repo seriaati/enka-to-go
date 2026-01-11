@@ -1,15 +1,6 @@
-import flet as ft
+import uvicorn
 
-from enka_to_go.web_app.main import EnkaToGOWebApp
+from src.main import app
 
-
-async def main(page: ft.Page) -> None:
-    page.title = "Enka to GO"
-    page.scroll = ft.ScrollMode.ADAPTIVE
-    page.vertical_alignment = ft.MainAxisAlignment.CENTER
-    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
-    web_app = EnkaToGOWebApp(page)
-    await web_app.add_controls()
-
-
-ft.app(target=main, view=None, port=7091)
+if __name__ == "__main__":
+    uvicorn.run(app, port=7092)

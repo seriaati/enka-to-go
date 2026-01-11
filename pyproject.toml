@@ -1,12 +1,25 @@
 [project]
 name = "enka-to-go"
 version = "1.0.5"
-description = "Export your Enka showcase to Genshin Optimizer for damage calculation."
+description = "Export your Enka Network showcase to Genshin/Zenless Optimizer."
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = ["enka>=2.4.3", "flet[web]>=0.25.2"]
-license = { file = "LICENSE" }
 authors = [{ name = "seriaati", email = "seria.ati@gmail.com" }]
+dependencies = ["enka>=2.4.3", "flet>=0.80.1"]
+license = { file = "LICENSE" }
+
+[dependency-groups]
+dev = ["flet[all]>=0.80.1"]
+type-check = ["pyright[nodejs]>=1.1.407"]
+
+[tool.flet]
+org = "com.seria"
+product = "enka-to-go"
+company = "Seria Studio"
+copyright = "Copyright (C) 2026 by Seria Studio"
+
+[tool.flet.app]
+path = "src"
 
 [tool.pyright]
 enableTypeIgnoreComments = false
@@ -17,9 +30,7 @@ reportUnnecessaryContains = true
 reportUnnecessaryIsInstance = true
 reportUnnecessaryTypeIgnoreComment = true
 typeCheckingMode = "standard"
+exclude = [".venv", "build"]
 
 [tool.uv.sources]
 enka = { git = "https://github.com/seriaati/enka-py" }
-
-[dependency-groups]
-type-check = ["pyright[nodejs]>=1.1.407"]
