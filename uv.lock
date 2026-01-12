@@ -362,13 +362,10 @@ version = "1.0.5"
 source = { virtual = "." }
 dependencies = [
     { name = "enka" },
-    { name = "flet", extra = ["web"] },
+    { name = "flet-project" },
 ]
 
 [package.dev-dependencies]
-dev = [
-    { name = "flet", extra = ["all"] },
-]
 type-check = [
     { name = "pyright", extra = ["nodejs"] },
 ]
@@ -376,11 +373,10 @@ type-check = [
 [package.metadata]
 requires-dist = [
     { name = "enka", git = "https://github.com/seriaati/enka-py" },
-    { name = "flet", extras = ["web"], specifier = ">=0.80.1" },
+    { name = "flet-project", git = "https://github.com/seriaati/flet?subdirectory=sdk%2Fpython&branch=fix-ref-typevar" },
 ]
 
 [package.metadata.requires-dev]
-dev = [{ name = "flet", extras = ["all"], specifier = ">=0.80.1" }]
 type-check = [{ name = "pyright", extras = ["nodejs"], specifier = ">=1.1.407" }]
 
 [[package]]
@@ -400,33 +396,51 @@ wheels = [
 
 [[package]]
 name = "flet"
-version = "0.80.1"
-source = { registry = "https://pypi.org/simple" }
+version = "0.1.0"
+source = { git = "https://github.com/seriaati/flet?subdirectory=sdk%2Fpython%2Fpackages%2Fflet&branch=fix-ref-typevar#4d08cf0cbd77e84bcbd4a4fd72a1daf5917593c7" }
 dependencies = [
     { name = "httpx", marker = "platform_system != 'Pyodide'" },
     { name = "msgpack" },
     { name = "oauthlib", marker = "platform_system != 'Pyodide'" },
     { name = "repath" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/0a/80/0dbf92f0d829729be0f22721fa7dd6cffbdaca6017e51379f96666f20d65/flet-0.80.1.tar.gz", hash = "sha256:1ecfa713e46051c3b4b856ac9d46bb69aa476c51d35823b518387cfb2d415d64", size = 349528, upload-time = "2026-01-02T21:40:32.697Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/fe/20/085201355f6525756ab32fc766e26559983ca6cbc0bd24e073846cf5492f/flet-0.80.1-py3-none-any.whl", hash = "sha256:645dfa7e0ff9648b94a3a47b6e0f26944046200e631e25f397bd4c5295067b9d", size = 440587, upload-time = "2026-01-02T21:40:30.988Z" },
+
+[[package]]
+name = "flet-ads"
+version = "0.1.0"
+source = { git = "https://github.com/seriaati/flet?subdirectory=sdk%2Fpython%2Fpackages%2Fflet-ads&branch=fix-ref-typevar#4d08cf0cbd77e84bcbd4a4fd72a1daf5917593c7" }
+dependencies = [
+    { name = "flet" },
 ]
 
-[package.optional-dependencies]
-all = [
-    { name = "flet-cli" },
-    { name = "flet-desktop" },
-    { name = "flet-web" },
+[[package]]
+name = "flet-audio"
+version = "0.1.0"
+source = { git = "https://github.com/seriaati/flet?subdirectory=sdk%2Fpython%2Fpackages%2Fflet-audio&branch=fix-ref-typevar#4d08cf0cbd77e84bcbd4a4fd72a1daf5917593c7" }
+dependencies = [
+    { name = "flet" },
 ]
-web = [
-    { name = "flet-web" },
+
+[[package]]
+name = "flet-audio-recorder"
+version = "0.1.0"
+source = { git = "https://github.com/seriaati/flet?subdirectory=sdk%2Fpython%2Fpackages%2Fflet-audio-recorder&branch=fix-ref-typevar#4d08cf0cbd77e84bcbd4a4fd72a1daf5917593c7" }
+dependencies = [
+    { name = "flet" },
+]
+
+[[package]]
+name = "flet-charts"
+version = "0.1.0"
+source = { git = "https://github.com/seriaati/flet?subdirectory=sdk%2Fpython%2Fpackages%2Fflet-charts&branch=fix-ref-typevar#4d08cf0cbd77e84bcbd4a4fd72a1daf5917593c7" }
+dependencies = [
+    { name = "flet" },
 ]
 
 [[package]]
 name = "flet-cli"
-version = "0.80.1"
-source = { registry = "https://pypi.org/simple" }
+version = "0.1.0"
+source = { git = "https://github.com/seriaati/flet?subdirectory=sdk%2Fpython%2Fpackages%2Fflet-cli&branch=fix-ref-typevar#4d08cf0cbd77e84bcbd4a4fd72a1daf5917593c7" }
 dependencies = [
     { name = "cookiecutter" },
     { name = "flet" },
@@ -434,42 +448,119 @@ dependencies = [
     { name = "qrcode" },
     { name = "watchdog" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/90/3f/2cb7c8d7c280d281b9009651d40c36d33a423b37a1c81b66a4fba52b6827/flet_cli-0.80.1.tar.gz", hash = "sha256:99272fa8e210be15b147f299a73115dcc5f0c8f8ab508187cd9f89bb7b367d7d", size = 44453, upload-time = "2026-01-02T21:40:35.756Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/df/e3/5d88706146964520ca6a092bec7e6162fe755ebc2093d67995faa395d939/flet_cli-0.80.1-py3-none-any.whl", hash = "sha256:943069a0ef3f4bc69c9bcae53f8f07aa137c5a4d2a80f8dd14be9c671bc9a064", size = 56672, upload-time = "2026-01-02T21:40:34.769Z" },
+
+[[package]]
+name = "flet-datatable2"
+version = "0.1.0"
+source = { git = "https://github.com/seriaati/flet?subdirectory=sdk%2Fpython%2Fpackages%2Fflet-datatable2&branch=fix-ref-typevar#4d08cf0cbd77e84bcbd4a4fd72a1daf5917593c7" }
+dependencies = [
+    { name = "flet" },
 ]
 
 [[package]]
 name = "flet-desktop"
-version = "0.80.1"
-source = { registry = "https://pypi.org/simple" }
+version = "0.1.0"
+source = { git = "https://github.com/seriaati/flet?subdirectory=sdk%2Fpython%2Fpackages%2Fflet-desktop&branch=fix-ref-typevar#4d08cf0cbd77e84bcbd4a4fd72a1daf5917593c7" }
 dependencies = [
     { name = "flet" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d0/aa/ce04b10aac9edb80995f9e457d162acc915021f08c7646daaadd38f39bc3/flet_desktop-0.80.1.tar.gz", hash = "sha256:831bea719ce4f848757824920f2df15ded740022b55e6a7b620c995cc3f6fadb", size = 3280, upload-time = "2026-01-02T21:40:45.879Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/fb/3e/7dfcaee67e803f3e1b8ef91f13848dfed9be99123b30243fd5458aac6367/flet_desktop-0.80.1-py3-none-macosx_10_14_x86_64.whl", hash = "sha256:987c9ff943fd38fdba1a5e366fa545cc32858202cdd4d02657ea33589cd3713a", size = 48312268, upload-time = "2026-01-02T21:41:00.438Z" },
-    { url = "https://files.pythonhosted.org/packages/e3/98/8e0ec8d7a2ae3a378346223e95bf19659f7f40af79197f1eeecadfeaa257/flet_desktop-0.80.1-py3-none-macosx_12_0_arm64.whl", hash = "sha256:0efab86bf73dd0cd7bda4b382ac54f267f91a862d87d9ffba6c9723a76f12256", size = 48312265, upload-time = "2026-01-02T21:41:06.439Z" },
-    { url = "https://files.pythonhosted.org/packages/1a/6c/a8b87e5048bdd7a528fa0934d61936ebd08cd8288fc0bc2276d9d3700eb6/flet_desktop-0.80.1-py3-none-manylinux2014_aarch64.manylinux_2_17_aarch64.whl", hash = "sha256:1f5e05ab4a3871879d27151a21beac4baa14d9a513357fa6af5b4573700fde1c", size = 21681576, upload-time = "2026-01-02T21:40:48.397Z" },
-    { url = "https://files.pythonhosted.org/packages/13/0f/dee15d8f80682ee5324e9b9f2ee20c242a2b173c16ddc4d4b9ed60b5b1f7/flet_desktop-0.80.1-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl", hash = "sha256:e979c18840faa887135bfccec76ad04f1081ae5cb102c8c90f0137c2a6182fcc", size = 22065863, upload-time = "2026-01-02T21:40:39.116Z" },
-    { url = "https://files.pythonhosted.org/packages/71/e3/7c10e37ea54516c00473d78ff218e02fd052fed0af5df4541941bb8b7631/flet_desktop-0.80.1-py3-none-musllinux_1_2_aarch64.whl", hash = "sha256:da9156d58a00f74afeb0449e82b09921c049f8a6580e3a14bd0bc1386e601c33", size = 21681563, upload-time = "2026-01-02T21:41:10.43Z" },
-    { url = "https://files.pythonhosted.org/packages/70/ca/c8c05a3dd390af1df1d995617d477879ba2b5179fb0f93a8ed139072cdf1/flet_desktop-0.80.1-py3-none-musllinux_1_2_x86_64.whl", hash = "sha256:c7b3828cb1cfe84cfb96db540ed8829631c342aec7b7136a88c72728f01d802e", size = 22065854, upload-time = "2026-01-02T21:41:13.774Z" },
-    { url = "https://files.pythonhosted.org/packages/41/ea/75b7d7bee5e85dc6f5bba9742d0d31ce8f2524a7959d603f4eb5352bdaca/flet_desktop-0.80.1-py3-none-win32.whl", hash = "sha256:4e6c758461df86bfdd863802ba3c99f17bf86fba1f7408587a6cd11ba15abb3c", size = 38094382, upload-time = "2026-01-02T21:40:54.425Z" },
-    { url = "https://files.pythonhosted.org/packages/cf/cd/d7ff5f7d4d8ada5d3075cb3cd30a58cfb6763ae4d63a4caa988ea16426d8/flet_desktop-0.80.1-py3-none-win_amd64.whl", hash = "sha256:2a6f025c352acb8e31afc6049eec8d46570c43f2896dd5622e66fee54ea8a434", size = 38094387, upload-time = "2026-01-02T21:40:43.688Z" },
+
+[[package]]
+name = "flet-flashlight"
+version = "0.1.0"
+source = { git = "https://github.com/seriaati/flet?subdirectory=sdk%2Fpython%2Fpackages%2Fflet-flashlight&branch=fix-ref-typevar#4d08cf0cbd77e84bcbd4a4fd72a1daf5917593c7" }
+dependencies = [
+    { name = "flet" },
+]
+
+[[package]]
+name = "flet-geolocator"
+version = "0.1.0"
+source = { git = "https://github.com/seriaati/flet?subdirectory=sdk%2Fpython%2Fpackages%2Fflet-geolocator&branch=fix-ref-typevar#4d08cf0cbd77e84bcbd4a4fd72a1daf5917593c7" }
+dependencies = [
+    { name = "flet" },
+]
+
+[[package]]
+name = "flet-lottie"
+version = "0.1.0"
+source = { git = "https://github.com/seriaati/flet?subdirectory=sdk%2Fpython%2Fpackages%2Fflet-lottie&branch=fix-ref-typevar#4d08cf0cbd77e84bcbd4a4fd72a1daf5917593c7" }
+dependencies = [
+    { name = "flet" },
+]
+
+[[package]]
+name = "flet-map"
+version = "0.2.0"
+source = { git = "https://github.com/seriaati/flet?subdirectory=sdk%2Fpython%2Fpackages%2Fflet-map&branch=fix-ref-typevar#4d08cf0cbd77e84bcbd4a4fd72a1daf5917593c7" }
+dependencies = [
+    { name = "flet" },
+]
+
+[[package]]
+name = "flet-permission-handler"
+version = "0.1.0"
+source = { git = "https://github.com/seriaati/flet?subdirectory=sdk%2Fpython%2Fpackages%2Fflet-permission-handler&branch=fix-ref-typevar#4d08cf0cbd77e84bcbd4a4fd72a1daf5917593c7" }
+dependencies = [
+    { name = "flet" },
+]
+
+[[package]]
+name = "flet-project"
+version = "0.1.0"
+source = { git = "https://github.com/seriaati/flet?subdirectory=sdk%2Fpython&branch=fix-ref-typevar#4d08cf0cbd77e84bcbd4a4fd72a1daf5917593c7" }
+dependencies = [
+    { name = "flet" },
+    { name = "flet-ads" },
+    { name = "flet-audio" },
+    { name = "flet-audio-recorder" },
+    { name = "flet-charts" },
+    { name = "flet-cli" },
+    { name = "flet-datatable2" },
+    { name = "flet-desktop" },
+    { name = "flet-flashlight" },
+    { name = "flet-geolocator" },
+    { name = "flet-lottie" },
+    { name = "flet-map" },
+    { name = "flet-permission-handler" },
+    { name = "flet-rive" },
+    { name = "flet-video" },
+    { name = "flet-web" },
+    { name = "flet-webview" },
+]
+
+[[package]]
+name = "flet-rive"
+version = "0.1.0"
+source = { git = "https://github.com/seriaati/flet?subdirectory=sdk%2Fpython%2Fpackages%2Fflet-rive&branch=fix-ref-typevar#4d08cf0cbd77e84bcbd4a4fd72a1daf5917593c7" }
+dependencies = [
+    { name = "flet" },
+]
+
+[[package]]
+name = "flet-video"
+version = "0.1.0"
+source = { git = "https://github.com/seriaati/flet?subdirectory=sdk%2Fpython%2Fpackages%2Fflet-video&branch=fix-ref-typevar#4d08cf0cbd77e84bcbd4a4fd72a1daf5917593c7" }
+dependencies = [
+    { name = "flet" },
 ]
 
 [[package]]
 name = "flet-web"
-version = "0.80.1"
-source = { registry = "https://pypi.org/simple" }
+version = "0.1.0"
+source = { git = "https://github.com/seriaati/flet?subdirectory=sdk%2Fpython%2Fpackages%2Fflet-web&branch=fix-ref-typevar#4d08cf0cbd77e84bcbd4a4fd72a1daf5917593c7" }
 dependencies = [
     { name = "fastapi" },
     { name = "flet" },
     { name = "uvicorn", extra = ["standard"] },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/f3/f5/921d9b4f0cc09f31306d285944ff03d7ab47201e9fb77a0c0fb8cac64367/flet_web-0.80.1.tar.gz", hash = "sha256:5397e0d95c389284b00931401940df957c8117d9ec01785ee2afdaae092e9bb2", size = 14485, upload-time = "2026-01-02T21:41:37.338Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/ca/79/4e61e2a1f680f87b815d32e957a18e8f400d2840a34e52b54965c69e51dc/flet_web-0.80.1-py3-none-any.whl", hash = "sha256:609c65e8c3ce65991bd376ec994d0bad961e143f56448e406cbfb879687eb433", size = 21566331, upload-time = "2026-01-02T21:41:35.514Z" },
+
+[[package]]
+name = "flet-webview"
+version = "0.1.0"
+source = { git = "https://github.com/seriaati/flet?subdirectory=sdk%2Fpython%2Fpackages%2Fflet-webview&branch=fix-ref-typevar#4d08cf0cbd77e84bcbd4a4fd72a1daf5917593c7" }
+dependencies = [
+    { name = "flet" },
 ]
 
 [[package]]

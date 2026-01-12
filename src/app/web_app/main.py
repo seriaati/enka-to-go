@@ -36,7 +36,8 @@ class EnkaToGOWebApp:
             )
         )
 
-        uid = self.uid_text_field.current.value
+        uid_control = self.uid_text_field.current
+        uid = uid_control.value if uid_control else ""
         if not uid:
             return self.page.show_dialog(
                 ft.SnackBar(
@@ -48,7 +49,9 @@ class EnkaToGOWebApp:
             )
 
         # save game to storage
-        await self.storage.set("game", self.game_selector.current.value)
+        game_control = self.game_selector.current
+        game = game_control.value if game_control else ""
+        await self.storage.set("game", game)
 
         # save uid to storage
         storage_uid = await self.storage.get("uid")
@@ -56,7 +59,6 @@ class EnkaToGOWebApp:
             await self.storage.set("uid", uid)
 
         # fetch and convert data
-        game = self.game_selector.current.value
         try:
             if game == "Genshin Impact":
                 async with enka.GenshinClient() as client:
@@ -119,8 +121,10 @@ class EnkaToGOWebApp:
             )
 
         converted_json = json.dumps(converted, indent=4)
-        self.result_json.current.value = converted_json
-        self.result_json.current.update()
+        json_control = self.result_json.current
+        if json_control:
+            json_control.value = converted_json
+            json_control.update()
 
         self.page.show_dialog(
             ft.SnackBar(
@@ -132,16 +136,18 @@ class EnkaToGOWebApp:
         )
 
     async def _copy_to_clipboard(self, _: ft.Event) -> None:
-        if result_json := self.result_json.current.value:
-            self.page.show_dialog(
-                ft.SnackBar(
-                    ft.Text(
-                        "Copied to clipboard.",
-                        color=ft.Colors.ON_SECONDARY_CONTAINER,
-                    ),
-                    bgcolor=ft.Colors.SECONDARY_CONTAINER,
+        if json_control := self.result_json.current:
+            result_json = json_control.value
+            if result_json:
+                self.page.show_dialog(
+                    ft.SnackBar(
+                        ft.Text(
+                            "Copied to clipboard.",
+                            color=ft.Colors.ON_SECONDARY_CONTAINER,
+                        ),
+                        bgcolor=ft.Colors.SECONDARY_CONTAINER,
+                    )
                 )
-            )
             await ft.Clipboard().set(result_json)
         else:
             self.page.show_dialog(
