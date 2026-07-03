@@ -10,4 +10,5 @@ async def update_data() -> None:
         await api.update_assets()
 
 
-asyncio.run(update_data())
+if __name__ == "__main__":
+    asyncio.run(update_data())
