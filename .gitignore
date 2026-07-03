@@ -154,4 +154,5 @@ cython_debug/
 .vscode/
 
 test.py
+.serena/
 
