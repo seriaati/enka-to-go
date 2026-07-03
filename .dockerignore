@@ -1,0 +1,26 @@
+# Version control
+.git
+.github
+.gitignore
+.gitattributes
+
+# Environments and caches
+.venv
+__pycache__
+*.pyc
+.serena
+.ruff_cache
+build
+dist
+
+# Runtime data (downloaded inside the container)
+.enka_py
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Not needed at runtime
+renovate.json
+ruff.toml
+showcase.png
