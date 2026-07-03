@@ -1,4 +1,5 @@
 import json
+from typing import cast
 
 import enka
 import flet as ft
@@ -51,7 +52,8 @@ class EnkaToGOWebApp:
         # save game to storage
         game_control = self.game_selector.current
         game = game_control.value if game_control else ""
-        await self.storage.set("game", game)
+        if game is not None:
+            await self.storage.set("game", game)
 
         # save uid to storage
         storage_uid = await self.storage.get("uid")
@@ -59,7 +61,7 @@ class EnkaToGOWebApp:
             await self.storage.set("uid", uid)
 
         # fetch and convert data
-        try:
+        try:  # noqa: PLW0717
             if game == "Genshin Impact":
                 async with enka.GenshinClient() as client:
                     response = await client.fetch_showcase(uid)
@@ -164,7 +166,9 @@ class EnkaToGOWebApp:
 
     async def add_controls(self) -> None:
         storage_game = await self.storage.get("game")
-        storage_uid = await self.storage.get("uid")
+        storage_game = cast("str | None", storage_game)
+        storage_uid = await self.storage.get("uid") or ""
+        storage_uid = cast("str", storage_uid)
 
         self.page.appbar = ft.AppBar(
             bgcolor=ft.Colors.PRIMARY_CONTAINER,
